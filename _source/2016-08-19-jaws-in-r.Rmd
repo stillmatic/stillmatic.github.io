@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "JAWS Methodology in R"
+title:  "Computing JAWS in R"
 subtitle: "August 19, 2016"
 date:   2016-08-19 15:56:00 
 categories: [articles]
@@ -78,24 +78,25 @@ getrWAR <- function() {
 } 
 ```
 
-Using that data, we can take a quick look at the underlying data.
+Using that data, we can take a quick look at the underlying data (10 randomly sampled rows).
 
 ```{r data_col}
 war_dat <- getrWAR()
 war_dat %>% 
-  group_by(playerId) %>%
-  summarize(start_year = min(yearId), end_year = max(yearId), years_played = n(), total_war = round(sum(rWAR), 2)) %>%
-  head(10) %>% dust %>% sprinkle_print_method("html")
+  sample_n(10) %>%
+  dust
 ```
 
-There's only so much data that we need here, however. We can narrow this down to get player-year pairs of rWAR. That is, the rWAR achieved by each player in each year. We also limit our dataset to include players who first appeared in the majors after 1900 to limit old-timey outliers.
+There's plenty of information here, but we only need so much. We can narrow this down to only player-year pairs of rWAR. That is, the rWAR achieved by each player in each year.
 
-```{r}
+```{r, echo=T}
 war_short <- war_dat %>%
   group_by(playerId) %>%
-  filter(min(yearId) >= 1900) %>%
   select(playerId, yearId, rWAR) %>% ungroup
-war_short
+```
+
+```{r}
+war_short %>% sample_n(10) %>% dust
 ```
 
 ## Part 1: JAWS Calculation
@@ -120,7 +121,7 @@ war_career <- war_short %>%
 
 war_career %>%
   ggplot(aes(total_war)) +
-  geom_histogram() + 
+  geom_histogram(bins = 25) + 
   scale_x_continuous(limits = c(-5, 50), oob = scales::squish) +
   xlab("rWAR") + ylab("Count") + ggtitle("Distribution of Career WAR")
 ```
@@ -168,8 +169,10 @@ war_peak <- war_short %>%
                                     fun = sum, na.rm = T)) %>%
   group_by(playerId) %>%
   summarize(peak_war = max(roll_war, na.rm = T))
+```
 
-war_peak
+```{r}
+war_peak %>% head(10) %>% dust
 ```
 
 We can take this data and plot the distribution of the peak WAR values. This distribution looks very similar to our above one, but with way fewer values that are out of bound to the right.
@@ -177,7 +180,7 @@ We can take this data and plot the distribution of the peak WAR values. This dis
 ```{r}
 war_peak %>% 
   ggplot(aes(peak_war)) + 
-  geom_histogram() +
+  geom_histogram(bins = 25) +
   scale_x_continuous(limits = c(-5, 50), oob = scales::squish) + 
   ggtitle("Peak WAR distribution - 7 years") +
   ylab("Count") + xlab("rWAR")
@@ -187,7 +190,9 @@ Now, we have two data frames with career WAR and peak WAR. We can merge them by 
 
 ```{r, echo=T}
 war_merge <- left_join(war_career, war_peak, by = "playerId")
-war_merge %>% kable()
+```
+```{r}
+war_merge %>% head(10) %>% dust
 ```
 
 Then, calculating the JAWS index is easy:
@@ -195,8 +200,10 @@ Then, calculating the JAWS index is easy:
 ```{r, echo=T}
 war_merge %<>%
   mutate(JAWS = (total_war + peak_war)/2)
+```
 
-war_merge
+```{r}
+war_merge %>% head(10) %>% dust
 ```
 
 ## Part 2: Comparisons
@@ -232,7 +239,10 @@ pos_data <- Lahman::Fielding %>%
 war_pos <- war_merge %>% 
   left_join(pos_data, by = c("playerId" = "playerID"))
 
-war_pos
+```
+
+```{r}
+war_pos %>% head(10) %>% dust
 ```
 
 Now we want to know if a player was inducted into the Hall of Fame. First, we get the dataframe of Hall of Fame inductions. This uses the `Lahman::HallOfFame` table, which contains all votes for the Hall of Fame. Note that some players are not inducted, so we need to check if they've ever been inducted. In the data, the `inducted` variable shows up as 'Y' or 'N'; the easiest way to do this is to check if any instance of `inducted` for each player is 'Y'. 
@@ -247,6 +257,10 @@ hof <- Lahman::HallOfFame %>%
   summarize(inducted = any(inducted == "Y"))
 ```
 
+```{r}
+hof %>% head(10) %>% dust
+```
+
 We can join this data against our above dataset to get our final table, with all the data we need.
 
 ```{r, echo = T}
@@ -254,8 +268,10 @@ jaws_final <- war_pos %>%
   left_join(hof, by = c("playerId" = "playerID")) %>%
   tidyr::replace_na(replace = list(inducted = F)) %>%
   select(playerId, JAWS:inducted)
+```
 
-jaws_final %>% head(10) %>% kable(round = 2)
+```{r}
+jaws_final %>% head(10) %>% dust
 ```
 
 Now, we want to see the average for each position's Hall of Famers.
@@ -265,7 +281,11 @@ jaws_hof <- jaws_final %>%
   filter(inducted == TRUE) %>%
   group_by(POS) %>%
   summarize(count = n(), avg = mean(JAWS))
-jaws_hof %>% kable(round = 2)
+```
+
+```{r}
+jaws_hof %>% head(10) %>% 
+  dust
 ```
 
 ## Conclusion
@@ -274,7 +294,7 @@ We've examined a real world 'sabermetric,' the JAWS index, and replicated its ca
 
 How does our JAWS index compare to the listed Baseball Prospectus JAWS?
 
-```{r}
+```{r, highlight = F}
 jaws_bp <- read.csv(file.path("C:", "code", "stillmatic", "_source", "bp_jaws.csv"))
 jaws_bp %>% 
   select(POS, JAWS)
