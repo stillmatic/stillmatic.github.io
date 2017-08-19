@@ -1,0 +1,14 @@
+Package: placeholder
+Type: Website
+Title: Does not matter.
+Version: 0.0.1
+Imports: blogdown,
+  dplyr,
+  magrittr,
+  Lahman,
+  memoise,
+  ggplot2,
+  pixiedust,
+  readr
+Remotes: rstudio/blogdown,
+  stillmatic/catcher

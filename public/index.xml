@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Home on Chris Hua</title>
+    <link>/</link>
+    <description>Recent content in Home on Chris Hua</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 17 Aug 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>About Me</title>
+      <link>/about/</link>
+      <pubDate>Thu, 17 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/about/</guid>
+      <description>I&amp;rsquo;m a data scientist at Quora, passionate about data, helping others, and eating noodles. At Quora, I am on the Ads data science team. Previously, I was a data science intern at Airbnb and at Expedia.
+I graduated from Wharton, majoring in statistics and finance, where I was heavily involved with the statistics and data science communities on campus. I love to hike and cook, and am just as comfortable on top of a mountain as in my cramped kitchen - either way, there&amp;rsquo;s beer.</description>
+    </item>
+    
+    <item>
+      <title>Blogging from Rstudio</title>
+      <link>/note/2017/08/17/blogging-from-rstudio/</link>
+      <pubDate>Thu, 17 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/note/2017/08/17/blogging-from-rstudio/</guid>
+      <description>It&amp;rsquo;s been in the back of my head to remake my blog and start posting again. I&amp;rsquo;ve had some great conversations about data science (and other things too!) but now have many thoughts to put down on paper/code.
+My last iteration was based on Jekyll and I think had some early iteration of blogdown. This new iteration runs with blogdown and Hugo.
+The transition was very easy: copy-paste the .Rmd source files, reinstall packages for these files I haven&amp;rsquo;t touched in ages, and then run.</description>
+    </item>
+    
+    <item>
+      <title>Computing JAWS in R</title>
+      <link>/post/2016/08/19/jaws/</link>
+      <pubDate>Fri, 19 Aug 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2016/08/19/jaws/</guid>
+      <description>Introduction and Motivation The “Jaffe Wins Above Replacement Score”, aka JAWS, is a widely acknowledged sabermetric methodology for identifying Hall of Fame worthy players. It is defined, simply, as the average of the player’s career wins above replacement (WAR) with their ‘peak 7 year WAR,’ the total WAR achieved over their best 7 year stretch. This JAWS index is then compared to the average JAWS index of players already in the Hall of Fame, for their position.</description>
+    </item>
+    
+  </channel>
+</rss>

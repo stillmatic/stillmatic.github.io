@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Baseball on Chris Hua</title>
+    <link>/tags/baseball/</link>
+    <description>Recent content in Baseball on Chris Hua</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 19 Aug 2016 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/baseball/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Computing JAWS in R</title>
+      <link>/post/2016/08/19/jaws/</link>
+      <pubDate>Fri, 19 Aug 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2016/08/19/jaws/</guid>
+      <description>Introduction and Motivation The “Jaffe Wins Above Replacement Score”, aka JAWS, is a widely acknowledged sabermetric methodology for identifying Hall of Fame worthy players. It is defined, simply, as the average of the player’s career wins above replacement (WAR) with their ‘peak 7 year WAR,’ the total WAR achieved over their best 7 year stretch. This JAWS index is then compared to the average JAWS index of players already in the Hall of Fame, for their position.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,314 @@
+---
+title: Computing JAWS in R
+author: Chris Hua
+date: '2016-08-19'
+slug: jaws
+categories: [articles]
+tags: [baseball]
+---
+
+
+```{r setup, include=FALSE, fig.height=5, fig.width=11}
+library(knitr)
+knitr::opts_chunk$set(echo = FALSE, fig.height=5, fig.width=11, warning = F)
+library(dplyr)
+library(magrittr)
+library(Lahman)
+library(memoise)
+library(ggplot2)
+library(pixiedust)
+```
+
+## Introduction and Motivation
+
+The ["Jaffe Wins Above Replacement Score"](http://www.baseballprospectus.com/glossary/index.php?mode=viewstat&stat=477), aka JAWS, is a widely acknowledged sabermetric methodology for identifying Hall of Fame worthy players. It is defined, simply, as the average of the player's career [wins above replacement](https://en.wikipedia.org/wiki/Wins_Above_Replacement) (WAR) with their 'peak 7 year WAR,' the total WAR achieved over their best 7 year stretch. This JAWS index is then compared to the average JAWS index of players already in the Hall of Fame, for their position. A player is deemed 'worthy' of the Hall of Fame if their JAWS index meets this threshold. 
+
+This calculation seems very simple, but is not that easy to calculate efficiently and cleanly. This post goes through that process and explains, step-by-step, the R code necessary. I also share a bunch of tips and tricks that could greatly help your R workflow.
+
+We're going to need a few packages, so install them if you haven't yet: `Lahman`, `dplyr`, `magrittr`, `readr`, and `ggplot2`.
+
+## Data collection and exploration
+
+First, we need to get data about these baseball players. Luckily, a number of R packages collect data about MLB players and make it easily accessible.
+
+We use a package [`openWARData`](https://github.com/beanumber/openWARData), used as inputs to the Open WAR standard as our source of WAR information. This package collects WAR information from the leading WAR implementations, FanGraphs and Baseball Reference.[^1] For this post, we will only consider Baseball Reference WAR calculations.
+
+```{r helpers}
+read_csv_cache <- function(file, ...) {
+  key <- digest::sha1(file)
+  path <- file.path("~", "ds_cache")
+  if(!dir.exists(path)) dir.create(path)
+  path <- file.path(path, key)
+  if(file.exists(path)) {
+    return(readRDS(path)) 
+  }
+  data <- readr::read_csv(file, ...)
+ 
+  saveRDS(data, path)
+  return(data)
+}
+
+getrWAR <- function() {
+  bat <- "http://www.baseball-reference.com/data/war_daily_bat.txt"
+  pitch <- "http://www.baseball-reference.com/data/war_daily_pitch.txt"
+  rWAR.b <- read_csv_cache(bat, na = c("NULL", "NA", ""))
+  rWAR.p <- read_csv_cache(pitch, na = c("NULL", "NA", ""))
+  
+  # Grab the number of batters faced for pitchers
+  bf.lkup <- Lahman::Pitching[, c("playerID", "yearID", "teamID", "stint", "BFP")]
+  rWAR.p <- merge(x = rWAR.p, y = bf.lkup, by.x = c("player_ID", "year_ID", "stint_ID"), by.y = c("playerID", "yearID", "stint"), 
+                  all.x = TRUE)
+  
+  bat.fields <- c("player_ID", "year_ID", "stint_ID", "team_ID", "PA", "runs_position", "runs_above_rep", "runs_above_avg", 
+                  "runs_above_avg_off", "runs_above_avg_def", "WAR")
+  pitch.fields <- c("player_ID", "year_ID", "stint_ID", "team_ID", "BFP", "runs_above_rep", "runs_above_avg", "WAR")
+  rWAR <- merge(x = rWAR.b[, bat.fields], y = rWAR.p[, pitch.fields], by = c("player_ID", "year_ID", "stint_ID"), all = TRUE)
+  rWAR <- rename_(rWAR, rRAA_bat = ~runs_above_avg_off
+                  , rRAA_field = ~runs_above_avg_def
+                  , rRAA_pitch = ~runs_above_avg.y
+                  , playerId = ~player_ID
+                  , yearId = ~year_ID
+                  , stintId = ~stint_ID)
+  rWAR <- mutate_(rWAR, TPA = ~ifelse(is.na(PA), 0, PA) + ifelse(is.na(BFP), 0, BFP))
+  rWAR <- mutate_(rWAR, rRAR = ~ifelse(is.na(runs_above_rep.x), 0, runs_above_rep.x) + ifelse(is.na(runs_above_rep.y), 0, runs_above_rep.y))
+  rWAR <- mutate_(rWAR, rRAA = ~ifelse(is.na(runs_above_avg.x), 0, runs_above_avg.x) + ifelse(is.na(rRAA_pitch), 0, rRAA_pitch))
+  rWAR <- mutate_(rWAR, rRepl = ~rRAA - rRAR)
+  rWAR <- mutate_(rWAR, rWAR = ~ifelse(is.na(WAR.x), 0, WAR.x) + ifelse(is.na(WAR.y), 0, WAR.y))
+  rWAR <- mutate_(rWAR, teamId = ~ifelse(is.na(team_ID.x), as.character(team_ID.y), as.character(team_ID.x)))
+  out <- as.tbl(rWAR[, setdiff(1:ncol(rWAR), grep("\\.(x|y)", names(rWAR)))])
+  return(out)
+} 
+```
+
+Using that data, we can take a quick look at the underlying data (10 randomly sampled rows).
+
+```{r data_col}
+war_dat <- getrWAR()
+war_dat %>% 
+  sample_n(10) %>%
+  dust
+```
+
+There's plenty of information here, but we only need so much. We can narrow this down to only player-year pairs of rWAR. That is, the rWAR achieved by each player in each year.
+
+```{r, echo=T}
+war_short <- war_dat %>%
+  group_by(playerId) %>%
+  select(playerId, yearId, rWAR) %>% ungroup
+```
+
+```{r}
+war_short %>% sample_n(10) %>% dust
+```
+
+## Part 1: JAWS Calculation
+
+The first component of the JAWS method is the career WAR. We can easily visualize the distribution via the `ggplot2` package. The following commands are all we need to do, in English and translated into R:
+
+1. Start with the above dataset `war_short`
+2. Group by player, because we are concerned with the characteristics of each individual player 
+3. Filter our dataset to only include those players with more than 7 years played.[^2]
+4. Since we're at the individual level, we can sum up the WAR for each player.
+5. Call ggplot2, and focus on the `total_war` variable
+6. Create a histogram of the data
+7. Cut the data off at 0 and 50 WAR, and 'squish' the results into range.
+8. Label our axes and give the plot a title.
+
+
+```{r, echo = T, warning=F}
+war_career <- war_short %>% 
+  group_by(playerId) %>%
+  filter(n() >= 7) %>%
+  summarize(total_war = round(sum(rWAR), 2))
+
+war_career %>%
+  ggplot(aes(total_war)) +
+  geom_histogram(bins = 25) + 
+  scale_x_continuous(limits = c(-5, 50), oob = scales::squish) +
+  xlab("rWAR") + ylab("Count") + ggtitle("Distribution of Career WAR")
+```
+
+This data looks like what we'd expect - a lot of players who have total WAR close to 0, denoting that they've performed at a replacement level, and a significant chunk of people who've earned more than 50 WAR. 
+
+Calculating total career WAR is easy and quick, and might feel like a good metric to use overall. However, high performers according to career WAR require longevity in the major leagues, and punishes players who had a number of very good years, but not the longest career. JAWS attempts to correct for this by calculating peak WAR.
+
+Our general process is as follows:
+
+1. Begin with the same dataset as above 
+2. Group by player and year, so even if a player is traded or went down to the minors, their season is counted as one.
+3. For each player-year pairing, sum up the WAR for that year.
+4. Ungroup and group by player instead, since we want to now 'move' across years.
+5. We need to do a rolling window sum. This step is pretty tricky, so I go more into depth in the appendix.[^3] 
+6. We group by player again and determine the highest peak WAR for each player.
+
+```{r slide_apply}
+slide_apply <- function (data, window, step = 1, fun, ...) 
+{
+    fun <- match.fun(fun)
+    total <- length(data)
+    window <- abs(window)
+    if(window > total) {
+      write("data size is smaller than group size", file = stderr())
+      return(fun(data))
+    }
+    spots <- seq(from = 1, to = (total - window + 1), by = abs(step))
+    result <- rep(NA, length(spots))
+    for (i in 1:length(spots)) {
+        result[window + i - 1] <- fun(data[spots[i]:(spots[i] + 
+            window - 1)], ...)
+    }
+    return(result)
+}
+```
+
+```{r, echo = T}
+war_peak <- war_short %>%
+  group_by(playerId, yearId) %>%
+  summarize(rWAR = sum(rWAR)) %>%
+  ungroup %>% group_by(playerId) %$%
+  data.frame(playerId, yearId, 
+             roll_war = slide_apply(data = rWAR, window = 7,
+                                    fun = sum, na.rm = T)) %>%
+  group_by(playerId) %>%
+  summarize(peak_war = max(roll_war, na.rm = T))
+```
+
+```{r}
+war_peak %>% head(10) %>% dust
+```
+
+We can take this data and plot the distribution of the peak WAR values. This distribution looks very similar to our above one, but with way fewer values that are out of bound to the right.
+
+```{r}
+war_peak %>% 
+  ggplot(aes(peak_war)) + 
+  geom_histogram(bins = 25) +
+  scale_x_continuous(limits = c(-5, 50), oob = scales::squish) + 
+  ggtitle("Peak WAR distribution - 7 years") +
+  ylab("Count") + xlab("rWAR")
+```
+
+Now, we have two data frames with career WAR and peak WAR. We can merge them by joining on player ID to get the following output:
+
+```{r, echo=T}
+war_merge <- left_join(war_career, war_peak, by = "playerId")
+```
+```{r}
+war_merge %>% head(10) %>% dust
+```
+
+Then, calculating the JAWS index is easy:
+
+```{r, echo=T}
+war_merge %<>%
+  mutate(JAWS = (total_war + peak_war)/2)
+```
+
+```{r}
+war_merge %>% head(10) %>% dust
+```
+
+## Part 2: Comparisons
+
+Certain positions are known to emphasize defensive ability over offensive stats, which generally reduces their WAR numbers. Most commonly, teams consider the value of a shortstop or catcher to come from their defensive ability, not dropping pitches or covering a lot of ground acrobatically, rather than their bat. The flip side is that corner outfielders and first basemen have easier jobs, and so demand greater offensive output. 
+
+The JAWS methodology accounts for position-wide disparities by comparing each player to only those Hall of Fame players who played the same position. We can try to do the same. 
+
+The Lahman and Baseball Reference datasets don't provide us with a position label for each player, which makes sense because players often play different positions and often shift positions throughout their career. We do our best to classify each player here by calculating the number of games played by each player at each position, and then taking the position where they played the max.
+
+1. We start with the `Lahman::Fielding` table, which includes fielding appearances by each player and the position at which they appeared.
+1. We limit the number of columns to player, JAWS score, year, position, and games played
+1. We group by the player and the positions they've played
+1. We summarize by summing up the games played at each position.
+1. We then group at the player level, and select only rows with the most games played at the position. In effect, we select the position most played.
+
+```{r}
+Mode <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+```
+
+```{r, echo = T}
+pos_data <- Lahman::Fielding %>%
+  group_by(playerID, POS) %>%
+  summarize(gp_pos = sum(G)) %>%
+  group_by(playerID) %>%
+  filter(gp_pos == max(gp_pos)) %>% 
+  ungroup
+
+war_pos <- war_merge %>% 
+  left_join(pos_data, by = c("playerId" = "playerID"))
+
+```
+
+```{r}
+war_pos %>% head(10) %>% dust
+```
+
+Now we want to know if a player was inducted into the Hall of Fame. First, we get the dataframe of Hall of Fame inductions. This uses the `Lahman::HallOfFame` table, which contains all votes for the Hall of Fame. Note that some players are not inducted, so we need to check if they've ever been inducted. In the data, the `inducted` variable shows up as 'Y' or 'N'; the easiest way to do this is to check if any instance of `inducted` for each player is 'Y'. 
+
+```{r}
+Lahman::HallOfFame %>% glimpse
+```
+
+```{r, echo = T}
+hof <- Lahman::HallOfFame %>%
+  group_by(playerID) %>%
+  summarize(inducted = any(inducted == "Y"))
+```
+
+```{r}
+hof %>% head(10) %>% dust
+```
+
+We can join this data against our above dataset to get our final table, with all the data we need.
+
+```{r, echo = T}
+jaws_final <- war_pos %>% 
+  left_join(hof, by = c("playerId" = "playerID")) %>%
+  tidyr::replace_na(replace = list(inducted = F)) %>%
+  select(playerId, JAWS:inducted)
+```
+
+```{r}
+jaws_final %>% head(10) %>% dust
+```
+
+Now, we want to see the average for each position's Hall of Famers.
+
+```{r, echo = T}
+jaws_hof <- jaws_final %>%
+  filter(inducted == TRUE) %>%
+  group_by(POS) %>%
+  summarize(count = n(), avg = mean(JAWS))
+```
+
+```{r}
+jaws_hof %>% head(10) %>% 
+  dust
+```
+
+## Conclusion
+
+We've examined a real world 'sabermetric,' the JAWS index, and replicated its calculations in R.
+
+How does our JAWS index compare to the listed Baseball Prospectus JAWS?
+
+```{r, highlight = F}
+# jaws_bp <- read.csv(file.path("C:", "code", "stillmatic", "_source", "bp_jaws.csv"))
+jaws_bp <- read.csv( "bp_jaws.csv")
+jaws_bp %>% 
+  select(POS, JAWS)
+```
+
+Our calculation is close. Some of the differences can be attributed to the above BP data being outdated (it was calculated in 2012), as well as possibly mislabelled player positions. 
+
+## Appendix
+
+[^1]: There is a lot of custom wrapper code here to make my life easier here. In particular, we use a wrapper around `read.csv` that saves downloaded files in a cache. This means, specifically, that I don't need to redownload functions every time I knit the document. However, you can replicate the basic functionality with the package, out of the box.
+
+[^2]: Here, we don't bother grouping by year because we only want the total career WAR.
+
+[^3]: This is a tricky step because we want to do a rolling sum on only the `rWAR` variable, and keep player ID and year intact. We have to use the `%$%` operator from the `magrittr` package in order to do so. For documentation, run `?%$%` in your R console, but this operator functions a lot like a `with` operator. It exposes the names of the left dataframe to the right, so we can run the rolling sum function for  I'm using a version of my [`slide_apply`](https://gist.github.com/stillmatic/fadfd3269b900e1fd7ee) function here, modified to return the sum of all elements if the player had fewer than 7 years. Note that we could skip that step if we filter for only players who've played at least 7 years. After we get the rolling sum, we need to reconstruct the data frame with the player ID and the year that they earned that 7-year cumulative value in. Constructing this dataframe alone isn't enough, since we need to re-add the grouping variable to do the next step.
