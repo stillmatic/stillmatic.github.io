@@ -1,0 +1,28 @@
+---
+title: David Hume on Work-Life Balance
+author: ~
+date: '2017-09-23'
+slug: david-hume-on-work-life-balance
+categories: [philosophy, notes]
+tags: []
+---
+
+> Most fortunately it happens, that since reason is incapable of dispelling these clouds, nature herself suffices to that purpose, and cures me of this philosophical melancholy and delirium, either by relaxing this bent of mind, or by some avocation, and lively impression of my senses, which obliterate all these chimeras. I dine, I play a game of backgammon, I converse, and am merry with my friends; and when after three or four hours’ amusement, I would return to these speculations, they appear so cold, and strained, and ridiculous, that I cannot find in my heart to enter into them any farther.
+
+David Hume, *A Treatise of Human Nature* (1739) p269
+
+Hume faced a divide in his life between philosophical ascetism and a social life. That sense of ascetism, a singular focus on work, is often mirrored in the worlds of tech and finance. 
+
+![deeplearning.ai 70+ hours of work](2017-09-23-deeplearning.png)
+
+A lot of my friends went to investment banking/finance where the norm is 80 hours per week of work for kids straight out of college. This model 'works' for the banks for two reasons:
+
+1. They have bottom-heavy structures: an army of analysts, a squadron of associates, a couple vice presidents, and few above that. The expectation is to churn nearly all of your junior staff after 2 years, which creates some perverse incentives. Also I guess there's a oligopoly (and maybe olipsony?) of banks so entry-level employees have very little bargaining power.
+2. Work is typically done on a per-project basis, and not usually reused. I mean, you reuse a DCF model spreadsheet that got passed down from some older analyst and should probably be registering for kindergarten at this point. But there aren't a ton of second order effects from any given project if an analyst makes a mistake.
+
+This model doesn't work for tech companies:
+
+1. There's way more tech companies, since the barrier to entry is much lower (a MacBook and some AWS credit). Engineers thus have more market power and can transfer more easily.
+2. Tech companies focus on building products with low variable costs, which scales best. This requires building on top of the work that others have done: writing and communicating code with the expectation that others will read it, and being collaborative. 
+
+I also think Hume's point about being mentally healthy and avoiding sickness is pretty important, if you wanted a reason other than cold economic rationality to not work your employees into the ground. Or maybe just hold some backgammon games at the office.

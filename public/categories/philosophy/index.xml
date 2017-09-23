@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Notes on Chris Hua</title>
-    <link>/categories/notes/</link>
-    <description>Recent content in Notes on Chris Hua</description>
+    <title>Philosophy on Chris Hua</title>
+    <link>/categories/philosophy/</link>
+    <description>Recent content in Philosophy on Chris Hua</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 23 Sep 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/categories/notes/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/categories/philosophy/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -18,17 +18,6 @@
       
       <guid>/post/2017/09/23/david-hume-on-work-life-balance/</guid>
       <description>Most fortunately it happens, that since reason is incapable of dispelling these clouds, nature herself suffices to that purpose, and cures me of this philosophical melancholy and delirium, either by relaxing this bent of mind, or by some avocation, and lively impression of my senses, which obliterate all these chimeras. I dine, I play a game of backgammon, I converse, and am merry with my friends; and when after three or four hours’ amusement, I would return to these speculations, they appear so cold, and strained, and ridiculous, that I cannot find in my heart to enter into them any farther.</description>
-    </item>
-    
-    <item>
-      <title>Blogging from Rstudio</title>
-      <link>/note/2017/08/17/blogging-from-rstudio/</link>
-      <pubDate>Thu, 17 Aug 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/note/2017/08/17/blogging-from-rstudio/</guid>
-      <description>It&amp;rsquo;s been in the back of my head to remake my blog and start posting again. I&amp;rsquo;ve had some great conversations about data science (and other things too!) but now have many thoughts to put down on paper/code.
-My last iteration was based on Jekyll and I think had some early iteration of blogdown. This new iteration runs with blogdown and Hugo.
-The transition was very easy: copy-paste the .Rmd source files, reinstall packages for these files I haven&amp;rsquo;t touched in ages, and then run.</description>
     </item>
     
   </channel>
