@@ -21,6 +21,7 @@ deploy:
   provider: pages
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
+  fqdn: hingeloss.com
   on:
     branch: source
   local_dir: public

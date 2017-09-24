@@ -13,7 +13,9 @@ David Hume, *A Treatise of Human Nature* (1739) p269
 
 Hume faced a divide in his life between philosophical ascetism and a social life. That sense of ascetism, a singular focus on work, is often mirrored in the worlds of tech and finance. 
 
-![deeplearning.ai 70+ hours of work](2017-09-23-deeplearning.png)
+```{r, echo = F}
+knitr::include_graphics("2017-09-23-deeplearning.png" )
+```
 
 A lot of my friends went to investment banking/finance where the norm is 80 hours per week of work for kids straight out of college. This model 'works' for the banks for two reasons:
 
