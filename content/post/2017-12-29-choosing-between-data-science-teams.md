@@ -40,13 +40,16 @@ You can maximize your learning by working somewhere which:
 
 ## 'Senior' roles
 
-Senior data scientists should optimize for impact - often by making other people more effective. I don't think I'm here yet, but there are a few common characteristics of the senior data scientists or data science managers that I appreciate.
+Senior data scientists should optimize for impact - often by making other people more effective. I don't think I'm here yet, but there are a few common characteristics of the senior data scientists or data science managers in teams that I appreciate. 
 
 * Shares their deep product intuition and accumulated tribal knowledge. This is mostly a function of experience and seeing events for themselves, but there is real skill involved in pattern-matching for the appropriate experiences to draw from. 
+* Domain-specific knowledge can be put to use. An example of a mismatch would be a data scientist with a ton of expertise in self-driving car techology taking a senior technical role in an adtech company. While their general leadership skills and expertise in working with data can be useful, the overall misfit means that their total impact is limited.
 * Creates abstractions that enable brand new types of analysis. My favorite examples of this generally involve system design - creating tools such as a large-scale experiment analysis framework or a machine learning model training process are extremely non-trivial and have huge benefits over manual efforts.
-* Keeps junior data scientists' career interests in mind. If øne data scientist is interested in data infrastructure and another is interested in machine learning, they should be pointed towards appropriate projects.
+* Keeps junior data scientists' career interests in mind. If one data scientist is interested in data infrastructure and another is interested in machine learning, they should be pointed towards appropriate projects. This also requires management to support the growth of junior data scientists.
 * Takes mentorship seriously.
 * Prioritizes projects based on their potential ROI/leverage.
+
+Teams where senior data scientists/managers are empowered to drive impact in these ways are well-positioned for success.
 
 ## Afterword
 
