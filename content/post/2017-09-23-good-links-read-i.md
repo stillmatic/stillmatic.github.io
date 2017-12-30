@@ -1,6 +1,6 @@
 ---
 title: 'Good links: read'
-author: Chris Hua
+author: ~
 date: '2017-09-23'
 slug: good-links-read-i
 categories: [good-links-read]

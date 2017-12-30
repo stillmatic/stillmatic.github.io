@@ -1,6 +1,6 @@
 ---
 title: Data Science for College Students - Courses
-author: Chris Hua
+author: ~
 date: '2017-10-07'
 slug: data-science-for-college-students-courses
 categories: [advice]

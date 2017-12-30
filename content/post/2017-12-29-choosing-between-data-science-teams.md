@@ -1,6 +1,6 @@
 ---
 title: Choosing between data science offers
-author: Chris Hua
+author: ~
 date: '2017-12-29'
 slug: choosing-between-data-science-teams
 categories: [articles]
@@ -43,7 +43,7 @@ You can maximize your learning by working somewhere which:
 Senior data scientists should optimize for impact - often by making other people more effective. I don't think I'm here yet, but there are a few common characteristics of the senior data scientists or data science managers that I appreciate.
 
 * Shares their deep product intuition and accumulated tribal knowledge. This is mostly a function of experience and seeing events for themselves, but there is real skill involved in pattern-matching for the appropriate experiences to draw from. 
-* Creates abstractions that enable brand new types of analysis. My favorite examples of this generally involve system design - creating tools such as a large-scale experiment analysis framework or a machine learning model training process are extremely non-trivial and have huge benefits over manual efforts. [^5]
+* Creates abstractions that enable brand new types of analysis. My favorite examples of this generally involve system design - creating tools such as a large-scale experiment analysis framework or a machine learning model training process are extremely non-trivial and have huge benefits over manual efforts.
 * Keeps junior data scientists' career interests in mind. If øne data scientist is interested in data infrastructure and another is interested in machine learning, they should be pointed towards appropriate projects.
 * Takes mentorship seriously.
 * Prioritizes projects based on their potential ROI/leverage.
@@ -59,5 +59,3 @@ Was this useful? Totally off base? Something in between? Let [me know](https://t
 [^3]: Sometimes this is inevitable. Certain features really cannot be effectively tested, e.g. visible pricing changes. But if your business is actually dependent on these broad, untestable changes, you're either completely out of growth ideas or in a bad business. I think I just said the same thing twice.
 
 [^4]: You know who you are.
-
-[^5]:
