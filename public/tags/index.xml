@@ -20,5 +20,32 @@
       <description></description>
     </item>
     
+    <item>
+      <title>College</title>
+      <link>/tags/college/</link>
+      <pubDate>Sat, 07 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/college/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Data science</title>
+      <link>/tags/data-science/</link>
+      <pubDate>Fri, 29 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/data-science/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Diversity</title>
+      <link>/tags/diversity/</link>
+      <pubDate>Mon, 02 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/diversity/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

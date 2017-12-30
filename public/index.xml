@@ -6,10 +6,40 @@
     <description>Recent content in Home on Chris Hua</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 23 Sep 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 29 Dec 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Choosing between data science offers</title>
+      <link>/post/2017/12/29/choosing-between-data-science-teams/</link>
+      <pubDate>Fri, 29 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2017/12/29/choosing-between-data-science-teams/</guid>
+      <description>Not all data science roles are created equal. Everyone will tell you that &amp;ldquo;data scientists&amp;rdquo; as a role play varying parts in different companies, but how can you choose between different teams?
+Some heuristics I found useful: * % of employees that are data
+* are people promoted from within * investments in data infra (eg how long does it take to get experiment results)
+* data culture - who does data report to in management?</description>
+    </item>
+    
+    <item>
+      <title>Data Science for College Students - Courses</title>
+      <link>/post/2017/10/07/data-science-for-college-students-courses/</link>
+      <pubDate>Sat, 07 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2017/10/07/data-science-for-college-students-courses/</guid>
+      <description>Giving advice to be one of the hardest things somebody can do, and yet people ask for it at an alarming rate. Perhaps the best way to start, then, is with a reminder that life is hard and it&amp;rsquo;s okay to not know what you&amp;rsquo;re doing. Your peers will pretend that they have everything figured out, and they will say as much, but know that you&amp;rsquo;re not seeing their own struggles.</description>
+    </item>
+    
+    <item>
+      <title>The Ice Cream Man</title>
+      <link>/post/2017/10/02/the-ice-cream-man/</link>
+      <pubDate>Mon, 02 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2017/10/02/the-ice-cream-man/</guid>
+      <description>The first story Ellen Pao told was about a law firm partner who stood outside a female lawyer&amp;rsquo;s office everyday after lunch, licking an ice cream cone while staring at her. Management&amp;rsquo;s response to these instances of sexism were invariably dismissive, e.g. “you should be flattered he&amp;rsquo;s interested in you,” or “it&amp;rsquo;s just one weird guy, but overall it&amp;rsquo;s not that bad, right?” The result is an environment that views sexism as the product of just one bad apple, but it&amp;rsquo;s instead the product of a bad system: one which condones and encourages “boys club” behavior.</description>
+    </item>
     
     <item>
       <title>David Hume on Work-Life Balance</title>
@@ -58,6 +88,15 @@ The transition was very easy: copy-paste the .Rmd source files, reinstall packag
       
       <guid>/post/2016/08/19/jaws/</guid>
       <description>Introduction and Motivation The “Jaffe Wins Above Replacement Score”, aka JAWS, is a widely acknowledged sabermetric methodology for identifying Hall of Fame worthy players. It is defined, simply, as the average of the player’s career wins above replacement (WAR) with their ‘peak 7 year WAR,’ the total WAR achieved over their best 7 year stretch. This JAWS index is then compared to the average JAWS index of players already in the Hall of Fame, for their position.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/post/1/01/01/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/post/1/01/01/</guid>
+      <description>Good links: read       code{white-space: pre;} pre:not([class]) { background-color: white; }  if (window.hljs &amp;&amp; document.readyState &amp;&amp; document.readyState === &#34;complete&#34;) { window.setTimeout(function() { hljs.initHighlighting(); }, 0); }  h1 { font-size: 34px; } h1.title { font-size: 38px; } h2 { font-size: 30px; } h3 { font-size: 24px; } h4 { font-size: 18px; } h5 { font-size: 16px; } h6 { font-size: 12px; } .table th:not([align]) { text-align: left; }    .</description>
     </item>
     
   </channel>

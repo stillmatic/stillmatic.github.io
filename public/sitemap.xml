@@ -3,6 +3,21 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/post/2017/12/29/choosing-between-data-science-teams/</loc>
+    <lastmod>2017-12-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/2017/10/07/data-science-for-college-students-courses/</loc>
+    <lastmod>2017-10-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/2017/10/02/the-ice-cream-man/</loc>
+    <lastmod>2017-10-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/2017/09/23/david-hume-on-work-life-balance/</loc>
     <lastmod>2017-09-23T00:00:00+00:00</lastmod>
   </url>
@@ -32,8 +47,14 @@
   </url>
   
   <url>
+    <loc>/categories/advice/</loc>
+    <lastmod>2017-10-07T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/categories/articles/</loc>
-    <lastmod>2016-08-19T00:00:00+00:00</lastmod>
+    <lastmod>2017-12-29T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -45,7 +66,25 @@
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2016-08-19T00:00:00+00:00</lastmod>
+    <lastmod>2017-10-07T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/college/</loc>
+    <lastmod>2017-10-07T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/data-science/</loc>
+    <lastmod>2017-12-29T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/diversity/</loc>
+    <lastmod>2017-10-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -57,7 +96,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2017-09-23T00:00:00+00:00</lastmod>
+    <lastmod>2017-12-29T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -80,13 +119,19 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2017-09-23T00:00:00+00:00</lastmod>
+    <lastmod>2017-12-29T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/</loc>
     <lastmod>2016-08-19T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/talks/</loc>
+    <lastmod>2017-10-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

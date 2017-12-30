@@ -6,15 +6,24 @@
     <description>Recent content in Categories on Chris Hua</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 19 Aug 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 07 Oct 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Advice</title>
+      <link>/categories/advice/</link>
+      <pubDate>Sat, 07 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/advice/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Articles</title>
       <link>/categories/articles/</link>
-      <pubDate>Fri, 19 Aug 2016 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 29 Dec 2017 00:00:00 +0000</pubDate>
       
       <guid>/categories/articles/</guid>
       <description></description>
@@ -44,6 +53,15 @@
       <pubDate>Sat, 23 Sep 2017 00:00:00 +0000</pubDate>
       
       <guid>/categories/philosophy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Talks</title>
+      <link>/categories/talks/</link>
+      <pubDate>Mon, 02 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/talks/</guid>
       <description></description>
     </item>
     
