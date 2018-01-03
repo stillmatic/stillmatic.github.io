@@ -79,14 +79,5 @@ Some heuristics I found useful: * % of employees that are data
       <description>Introduction and Motivation The “Jaffe Wins Above Replacement Score”, aka JAWS, is a widely acknowledged sabermetric methodology for identifying Hall of Fame worthy players. It is defined, simply, as the average of the player’s career wins above replacement (WAR) with their ‘peak 7 year WAR,’ the total WAR achieved over their best 7 year stretch. This JAWS index is then compared to the average JAWS index of players already in the Hall of Fame, for their position.</description>
     </item>
     
-    <item>
-      <title></title>
-      <link>/post/1/01/01/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/post/1/01/01/</guid>
-      <description>Good links: read       code{white-space: pre;} pre:not([class]) { background-color: white; }  if (window.hljs &amp;&amp; document.readyState &amp;&amp; document.readyState === &#34;complete&#34;) { window.setTimeout(function() { hljs.initHighlighting(); }, 0); }  h1 { font-size: 34px; } h1.title { font-size: 38px; } h2 { font-size: 30px; } h3 { font-size: 24px; } h4 { font-size: 18px; } h5 { font-size: 16px; } h6 { font-size: 12px; } .table th:not([align]) { text-align: left; }    .</description>
-    </item>
-    
   </channel>
 </rss>
