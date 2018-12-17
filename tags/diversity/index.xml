@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>diversity on Chris Hua</title>
+    <link>/tags/diversity/</link>
+    <description>Recent content in diversity on Chris Hua</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 02 Oct 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/diversity/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>The Ice Cream Man</title>
+      <link>/posts/the-ice-cream-man/</link>
+      <pubDate>Mon, 02 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/the-ice-cream-man/</guid>
+      <description>The first story Ellen Pao told was about a law firm partner who stood outside a female lawyer&amp;rsquo;s office everyday after lunch, licking an ice cream cone while staring at her. Management&amp;rsquo;s response to these instances of sexism were invariably dismissive, e.g. “you should be flattered he&amp;rsquo;s interested in you,” or “it&amp;rsquo;s just one weird guy, but overall it&amp;rsquo;s not that bad, right?” The result is an environment that views sexism as the product of just one bad apple, but it&amp;rsquo;s instead the product of a bad system: one which condones and encourages “boys club” behavior.</description>
+    </item>
+    
+  </channel>
+</rss>

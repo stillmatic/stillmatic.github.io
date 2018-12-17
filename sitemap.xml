@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>/posts/going-to-the-metal/</loc>
+    <lastmod>2018-12-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/posts/the-two-types-of-data/</loc>
+    <lastmod>2018-12-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/posts/python-markdown-bootstrap-styling-extension/</loc>
+    <lastmod>2017-12-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/posts/choosing-between-data-science-teams/</loc>
+    <lastmod>2017-12-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/posts/data-science-for-college-students-courses/</loc>
+    <lastmod>2017-10-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/posts/the-ice-cream-man/</loc>
+    <lastmod>2017-10-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/posts/david-hume-on-work-life-balance/</loc>
+    <lastmod>2017-09-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/about/</loc>
+    <lastmod>2017-08-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/posts/blogging-from-rstudio/</loc>
+    <lastmod>2017-08-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2018-12-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/posts/</loc>
+    <lastmod>2018-12-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/advice/</loc>
+    <lastmod>2017-10-07T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/articles/</loc>
+    <lastmod>2017-12-29T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/bootstrap/</loc>
+    <lastmod>2017-12-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/code/</loc>
+    <lastmod>2017-12-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/college/</loc>
+    <lastmod>2017-10-07T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/data-science/</loc>
+    <lastmod>2017-12-29T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/diversity/</loc>
+    <lastmod>2017-10-02T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/markdown/</loc>
+    <lastmod>2017-12-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/notes/</loc>
+    <lastmod>2018-12-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/philosophy/</loc>
+    <lastmod>2017-09-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/python/</loc>
+    <lastmod>2017-12-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/talks/</loc>
+    <lastmod>2017-10-02T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+</urlset>

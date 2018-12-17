@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>data science on Chris Hua</title>
+    <link>/tags/data-science/</link>
+    <description>Recent content in data science on Chris Hua</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 29 Dec 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/data-science/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Choosing between data science offers</title>
+      <link>/posts/choosing-between-data-science-teams/</link>
+      <pubDate>Fri, 29 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/choosing-between-data-science-teams/</guid>
+      <description>Not all data science roles are created equal. Everyone will tell you that &amp;ldquo;data scientists&amp;rdquo; as a role play varying parts in different companies, but how can you choose between different teams?
+Some heuristics I found useful: * % of employees that are data
+* are people promoted from within * investments in data infra (eg how long does it take to get experiment results)
+* data culture - who does data report to in management?</description>
+    </item>
+    
+    <item>
+      <title>Data Science for College Students - Courses</title>
+      <link>/posts/data-science-for-college-students-courses/</link>
+      <pubDate>Sat, 07 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/data-science-for-college-students-courses/</guid>
+      <description>Giving advice to be one of the hardest things somebody can do, and yet people ask for it at an alarming rate. Perhaps the best way to start, then, is with a reminder that life is hard and it&amp;rsquo;s okay to not know what you&amp;rsquo;re doing. Your peers will pretend that they have everything figured out, and they will say as much, but know that you&amp;rsquo;re not seeing their own struggles.</description>
+    </item>
+    
+  </channel>
+</rss>

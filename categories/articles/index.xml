@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>articles on Chris Hua</title>
+    <link>/categories/articles/</link>
+    <description>Recent content in articles on Chris Hua</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 29 Dec 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/articles/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Choosing between data science offers</title>
+      <link>/posts/choosing-between-data-science-teams/</link>
+      <pubDate>Fri, 29 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/choosing-between-data-science-teams/</guid>
+      <description>Not all data science roles are created equal. Everyone will tell you that &amp;ldquo;data scientists&amp;rdquo; as a role play varying parts in different companies, but how can you choose between different teams?
+Some heuristics I found useful: * % of employees that are data
+* are people promoted from within * investments in data infra (eg how long does it take to get experiment results)
+* data culture - who does data report to in management?</description>
+    </item>
+    
+  </channel>
+</rss>
