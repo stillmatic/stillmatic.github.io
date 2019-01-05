@@ -6,10 +6,25 @@
     <description>Recent content on Chris Hua</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 23 Dec 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 04 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>n=1 year in data: Ben Jiang</title>
+      <link>/posts/data-science-1-year-ben-jiang/</link>
+      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/data-science-1-year-ben-jiang/</guid>
+      <description>Interviewed 16 October 2018. Lightly edited.
+ 
+If you&amp;rsquo;re interested in being profiled, drop me a line! I&amp;rsquo;m interested in speaking to early-mid career data scientists (hence, n=1 year).
+What do you do?
+I&amp;rsquo;m a data scientist at KeyMe.
+Our key value prop is in the tech, e.g. deep learning, which we use to scan keys and model what the output should be.
+What did you study in school?</description>
+    </item>
     
     <item>
       <title>Going to the Metal</title>

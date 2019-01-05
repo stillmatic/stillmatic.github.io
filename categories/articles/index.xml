@@ -6,10 +6,21 @@
     <description>Recent content in articles on Chris Hua</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 29 Dec 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 16 Dec 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/articles/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>The two types of data</title>
+      <link>/posts/the-two-types-of-data/</link>
+      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/the-two-types-of-data/</guid>
+      <description>Basically nothing I learned about data from school carried over when I got a data science job in industry.
+The overwhelming of data which we collect in industrial data applications (by which, I do mean tech applications at scale) is log data. Most of what we work with in school (or outside of large tech companies) is not that. Typically, we&amp;rsquo;ll work with log data or metadata.
+In this post, I&amp;rsquo;ll cover what that data model looks like.</description>
+    </item>
     
     <item>
       <title>Choosing between data science offers</title>

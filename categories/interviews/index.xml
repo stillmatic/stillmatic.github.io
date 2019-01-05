@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>college on Chris Hua</title>
-    <link>/tags/college/</link>
-    <description>Recent content in college on Chris Hua</description>
+    <title>interviews on Chris Hua</title>
+    <link>/categories/interviews/</link>
+    <description>Recent content in interviews on Chris Hua</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 04 Jan 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/college/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/categories/interviews/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -24,15 +24,6 @@ What do you do?
 I&amp;rsquo;m a data scientist at KeyMe.
 Our key value prop is in the tech, e.g. deep learning, which we use to scan keys and model what the output should be.
 What did you study in school?</description>
-    </item>
-    
-    <item>
-      <title>Data Science for College Students - Courses</title>
-      <link>/posts/data-science-for-college-students-courses/</link>
-      <pubDate>Sat, 07 Oct 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/posts/data-science-for-college-students-courses/</guid>
-      <description>Giving advice to be one of the hardest things somebody can do, and yet people ask for it at an alarming rate. Perhaps the best way to start, then, is with a reminder that life is hard and it&amp;rsquo;s okay to not know what you&amp;rsquo;re doing. Your peers will pretend that they have everything figured out, and they will say as much, but know that you&amp;rsquo;re not seeing their own struggles.</description>
     </item>
     
   </channel>

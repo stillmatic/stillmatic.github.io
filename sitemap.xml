@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/posts/data-science-1-year-ben-jiang/</loc>
+    <lastmod>2019-01-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/posts/going-to-the-metal/</loc>
     <lastmod>2018-12-23T00:00:00+00:00</lastmod>
   </url>
@@ -54,13 +59,13 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2018-12-23T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-04T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/posts/</loc>
-    <lastmod>2018-12-23T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-04T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -77,7 +82,7 @@
   
   <url>
     <loc>/categories/articles/</loc>
-    <lastmod>2017-12-29T00:00:00+00:00</lastmod>
+    <lastmod>2018-12-16T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -95,19 +100,31 @@
   
   <url>
     <loc>/tags/college/</loc>
-    <lastmod>2017-10-07T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-04T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/data-science/</loc>
-    <lastmod>2017-12-29T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-04T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/data-science/</loc>
+    <lastmod>2019-01-04T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/diversity/</loc>
     <lastmod>2017-10-02T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/interviews/</loc>
+    <lastmod>2019-01-04T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
