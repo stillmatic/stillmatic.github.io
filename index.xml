@@ -6,10 +6,20 @@
     <description>Recent content on Chris Hua</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 04 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 10 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>On Excel</title>
+      <link>/posts/on-excel/</link>
+      <pubDate>Thu, 10 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/on-excel/</guid>
+      <description>I wrote about why banks use Excel and why their workbooks are insane.
+Perhaps a bit more interestingly, I also wrote about why switching to R, despite Wharton&amp;rsquo;s best efforts, isn&amp;rsquo;t going to make bankers write clean, accesible code.</description>
+    </item>
     
     <item>
       <title>n=1 year in data: Ben Jiang</title>
