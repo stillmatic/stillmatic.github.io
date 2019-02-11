@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>startups on Chris Hua</title>
+    <link>/tags/startups/</link>
+    <description>Recent content in startups on Chris Hua</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 10 Feb 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/startups/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Subscriptions as price discrimination</title>
+      <link>/posts/price-discrimination-subscriptions/</link>
+      <pubDate>Sun, 10 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/price-discrimination-subscriptions/</guid>
+      <description>TLDR  There are two types of subscriptions, those focused on the platform and those focused on the creators you&amp;rsquo;re supporting. Creator-focused subscriptions can be part of an extremely effective growth loop, with network effects and viewer lock-in. The most sophisticated subscription-based models are also the most efficient forms of price discrimination we&amp;rsquo;ve ever seen, where the subscriptions further the network effects and can both create and capture enormous amounts of value.</description>
+    </item>
+    
+  </channel>
+</rss>

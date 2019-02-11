@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>foundations on Chris Hua</title>
+    <link>/tags/foundations/</link>
+    <description>Recent content in foundations on Chris Hua</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 05 Jan 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/foundations/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Foundations: Overlapping Experiment Infrastructure</title>
+      <link>/posts/foundations-overlapping-experiment-infrastructure/</link>
+      <pubDate>Sat, 05 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/foundations-overlapping-experiment-infrastructure/</guid>
+      <description>We&amp;rsquo;re hopefully familiar with the general product experimentation framework already. Essentially, when a user arrives onto a page, we decide what experience to show them.
+  </description>
+    </item>
+    
+    <item>
+      <title>Foundations of applied data science</title>
+      <link>/posts/foundations-applied-data-science/</link>
+      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/foundations-applied-data-science/</guid>
+      <description>Here are a few papers / books / articles which I consider foundational to the practice of data science. I&amp;rsquo;ll write separate posts about some of them.
+ Overlapping Experiment Infrastructure  [^1]: @inproceedings{36500, title = {Overlapping Experiment Infrastructure: More, Better, Faster Experimentation}, author = {Diane Tang and Ashish Agarwal and Deirdre O&#39;Brien and Mike Meyer}, year = {2010}, booktitle = {Proceedings 16th Conference on Knowledge Discovery and Data Mining}, pages = {17--26}, address = {Washington, DC} }  </description>
+    </item>
+    
+  </channel>
+</rss>
