@@ -6,10 +6,21 @@
     <description>Recent content in startups on Chris Hua</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 10 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 25 Feb 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/startups/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Facebook&#39;s &#39;Fan Subscriptions&#39;</title>
+      <link>/posts/facebook-subscriptions-analysis/</link>
+      <pubDate>Mon, 25 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/facebook-subscriptions-analysis/</guid>
+      <description>Or, how I learned to stop worrying and love the network.
+Facebook reached out to offer Hard Drive early access to a &amp;quot;fan subscription&amp;quot; product. I asked my editors about it and the complete distrust amongst our team was kinda funny. We read through the terms and found a couple things that were hilarious when compared to Patreon&amp;#39;s 5%.
+&amp;mdash; Matt Saincome (@MattSaincome) February 26, 2019  Now this is pretty interesting!</description>
+    </item>
     
     <item>
       <title>Subscriptions as price discrimination</title>
