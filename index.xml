@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Chris Hua</title>
@@ -6,10 +6,20 @@
     <description>Recent content on Chris Hua</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 21 Apr 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 25 Nov 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Lessons from the untimely demise of Deadspin</title>
+      <link>/posts/lessons-from-deadspin-rip/</link>
+      <pubDate>Mon, 25 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/lessons-from-deadspin-rip/</guid>
+      <description>This is an adapted version of a memo I wrote previously.
+Deadspin was a &amp;ldquo;sports blog&amp;rdquo; that was part of the Gawker family. The sites have been very popular and simultaneously very controversial, in large part due to their posts which spoke truth to power. (A less generous take would be that they were unruly rabble rousers who stuck their noses where they didn&amp;rsquo;t belong). There is a saga that involves Peter Thiel which is easy to find more details on, and which I don&amp;rsquo;t really want to comment on; suffice to say, the media org has been bought and sold multiple times over the last few years and is currently owned by a private equity firm, probably looking to squeeze some scraps of advertising revenue from the firm while they still can.</description>
+    </item>
     
     <item>
       <title>Post-hyperscale</title>

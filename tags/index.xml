@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Chris Hua</title>
@@ -6,34 +6,35 @@
     <description>Recent content in Tags on Chris Hua</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Mon, 25 Nov 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>bootstrap</title>
-      <link>/tags/bootstrap/</link>
-      <pubDate>Sat, 30 Dec 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/bootstrap/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>business-models</title>
       <link>/tags/business-models/</link>
-      <pubDate>Sun, 21 Apr 2019 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 25 Nov 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/business-models/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>college</title>
-      <link>/tags/college/</link>
-      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      <title>media</title>
+      <link>/tags/media/</link>
+      <pubDate>Mon, 25 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/college/</guid>
+      <guid>/tags/media/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>startups</title>
+      <link>/tags/startups/</link>
+      <pubDate>Sun, 21 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/startups/</guid>
       <description></description>
     </item>
     
@@ -47,6 +48,15 @@
     </item>
     
     <item>
+      <title>college</title>
+      <link>/tags/college/</link>
+      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/college/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>data science</title>
       <link>/tags/data-science/</link>
       <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
@@ -56,20 +66,11 @@
     </item>
     
     <item>
-      <title>data-science</title>
-      <link>/tags/data-science/</link>
-      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      <title>bootstrap</title>
+      <link>/tags/bootstrap/</link>
+      <pubDate>Sat, 30 Dec 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/data-science/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>diversity</title>
-      <link>/tags/diversity/</link>
-      <pubDate>Mon, 02 Oct 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/diversity/</guid>
+      <guid>/tags/bootstrap/</guid>
       <description></description>
     </item>
     
@@ -92,11 +93,11 @@
     </item>
     
     <item>
-      <title>startups</title>
-      <link>/tags/startups/</link>
-      <pubDate>Sun, 21 Apr 2019 00:00:00 +0000</pubDate>
+      <title>diversity</title>
+      <link>/tags/diversity/</link>
+      <pubDate>Mon, 02 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/startups/</guid>
+      <guid>/tags/diversity/</guid>
       <description></description>
     </item>
     

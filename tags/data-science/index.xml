@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>data science on Chris Hua</title>
@@ -24,6 +24,17 @@ What do you do?
 I&amp;rsquo;m a data scientist at KeyMe.
 Our key value prop is in the tech, e.g. deep learning, which we use to scan keys and model what the output should be.
 What did you study in school?</description>
+    </item>
+    
+    <item>
+      <title>The two types of data</title>
+      <link>/posts/the-two-types-of-data/</link>
+      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/the-two-types-of-data/</guid>
+      <description>Basically nothing I learned about data from school carried over when I got a data science job in industry.
+The overwhelming of data which we collect in industrial data applications (by which, I do mean tech applications at scale) is log data. Most of what we work with in school (or outside of large tech companies) is not that. Typically, we&amp;rsquo;ll work with log data or metadata.
+In this post, I&amp;rsquo;ll cover what that data model looks like.</description>
     </item>
     
     <item>
