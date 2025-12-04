@@ -16,7 +16,7 @@ I consume a lot of content so you don't have to! Except these, you should consum
 3. Here's a random fact I learned this week: [The Dude's sweater](http://media.oregonlive.com/knitting/photo/9563359-large.jpg) is a design from Pendleton Mills known as the [Westerley](https://www.pendleton-usa.com/product/Men/SWEATERS/SWEATERS/THE-ORIGINAL-WESTERLEY/173082/sc/1727/c/1727/pc/1814.uts). Should I rock a cardigan or a kimono this fall?
 
 4. **Tweet**: Today is the day the King became President.
-{{< tweet 911610455877021697 >}}
+{{< x user="KingJames" id="911610455877021697" >}}
 
 5. **Read**: [Inside Patagonia’s Private Archives](https://www.gq.com/story/inside-patagonia-private-archive). This article was just blatant fan service, but I am kind of a Patagonia stan so I'm here for it. Then again, literally everyone in SF tech/finance wears a Patagonia vest or sweater, so that's not really new. I'm sure you've noticed that, but have you noticed that they're all in the same color combinations - heather gray quarter-zip sweater or black nano-puff jacket? That's why I really like this parenthetical, attributed to Yvon Chouinard:
 

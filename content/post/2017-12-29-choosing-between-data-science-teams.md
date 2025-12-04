@@ -9,7 +9,7 @@ tags: ['data science']
 
 Not all data science roles are created equal. Everyone will tell you that "data scientists" as a role play varying parts in different companies, but how can you choose between different teams? 
 
-{{< tweet 946061825782702081 >}}
+{{< x user="hmason" id="946061825782702081" >}}
 
 Hilary Mason had a tweet about this that got a lot of replies along the lines of "well I work at this place and it's obviously a great place for junior data scientists, I'm here!" - but very few actually substantiate what characteristics make them a good fit for junior data scientists.
 

@@ -77,7 +77,7 @@ A couple examples of where we'd want to join multiple datasources in an analytic
 
 An example query:
 
-```{sql}
+```sql
 SELECT
     a.dt
     , b.cohort_year
