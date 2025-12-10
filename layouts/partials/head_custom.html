@@ -1,1 +1,28 @@
 <link rel="stylesheet" href="{{ "/css/custom.css" | relURL }}" />
+<script>
+  (function() {
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  })();
+
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    updateToggleText();
+  }
+
+  function updateToggleText() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const toggle = document.getElementById('theme-toggle-text');
+    if (toggle) {
+      toggle.innerText = isDark ? "Light Mode" : "Dark Mode";
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', updateToggleText);
+</script>

@@ -81,3 +81,4 @@ I lost motivation for this direction, however, for reasons you may be able to gu
 ## The opportunities
 
 More broadly, I think that there's a lot of edge left in designing good feedback loops, particularly around non-verifiable problems. Companies like [General Intuition](https://techcrunch.com/2025/10/16/general-intuition-lands-134m-seed-to-teach-agents-spatial-reasoning-using-video-game-clips/) are interesting, because they're starting with a platform of scaled consumer data and feedback, then betting the AI is easier to build. One way is to think of these as non-verifiable RL environments. What is the most important thing to your customers, especially if fuzzy, and how can you collect the data to help them achieve that? 
+ 
