@@ -1,0 +1,277 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Agents @ Home - Chris Hua</title><meta property="og:title" content="Agents @ Home - Chris Hua"><meta name=twitter:card content="summary"><meta property="description" content="Running serverless Claude Agents: cheap, good, and fast"><meta property="og:description" content="Running serverless Claude Agents: cheap, good, and fast"><link href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css rel=stylesheet type=text/css><link rel=stylesheet href=/css/style.css><link rel=stylesheet href=/css/fonts.css><link rel=stylesheet href=/css/custom.css><script>(function(){const e=localStorage.getItem("theme"),t=window.matchMedia("(prefers-color-scheme: dark)").matches;(e==="dark"||!e&&t)&&document.documentElement.setAttribute("data-theme","dark")})();function toggleTheme(){const t=document.documentElement.getAttribute("data-theme"),e=t==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",e),localStorage.setItem("theme",e),updateToggleText()}function updateToggleText(){const t=document.documentElement.getAttribute("data-theme")==="dark",e=document.getElementById("theme-toggle-text");e&&(e.innerText=t?"Light Mode":"Dark Mode")}document.addEventListener("DOMContentLoaded",updateToggleText)</script></head><body class=post><header class=masthead><h1><a href=/>Chris Hua</a></h1><p class=tagline>LLM Whisperer</p><nav class=menu><input id=menu-check type=checkbox hidden>
+<label id=menu-label for=menu-check class=unselectable hidden><span class="icon close-icon">✕</span>
+<span class="icon open-icon">☰</span>
+<span class=text>Menu</span></label><ul><li><a href>Home</a></li><li><a href>Categories</a></li><li><a href>Tags</a></li><li><a href>Subscribe</a></li><li><a href=# id=theme-toggle onclick="return toggleTheme(),!1"><span id=theme-toggle-text>Dark Mode</span></a></li></ul></nav></header><article class=main><header class=title><h1>Agents @ Home</h1><h3>Chris Hua
+/ 2025-12-26
+/ 11 minute read</h3><hr></header><aside class=toc-panel><input type=checkbox id=toc-toggle class=toc-toggle>
+<label for=toc-toggle class=toc-button><span class=toc-open>Show TOC</span>
+<span class=toc-close>Hide TOC</span></label><div class=toc-box><div class=toc-title>On this page</div><nav id=TableOfContents><ul><li><a href=#a-basic-implementation>A basic implementation</a></li><li><a href=#making-it-useful>Making it useful</a><ul><li><a href=#persisting-logs>Persisting logs</a></li><li><a href=#building-a-ui>Building a UI</a></li><li><a href=#swapping-models>Swapping models</a></li></ul></li><li><a href=#now-what>Now what?</a></li></ul></nav></div></aside><p>Since the first time anyone said &ldquo;coding agents,&rdquo; I&rsquo;ve basically only wanted one thing: an intern I can assign tasks to, whenever they pop into my mind, and expect results eventually. Claude Code and OpenAI Codex are getting there, in terms of the pure capability. But they&rsquo;re also chew through tokens quickly, add huge markups (4-5x) on sandbox usage, and are not that easily customizable. For example, I&rsquo;ve been working on a bit of a software benchmark, and I want to test different models on it, which requires a custom setup. I thought software engineering was solved, so can we do something here?</p><p>So, I set up Claude&rsquo;s Agents SDK (basically headless Claude Code) to run on Modal. Modal is easy to work with, has very cheap compute/generous free tier, and good vibes.</p><h2 id=a-basic-implementation>A basic implementation</h2><p>An extremely minimal setup is about a hundred lines. First, we import some libraries and create a Modal app. Crucially here: we copy over your local Claude Code credentials file. It&rsquo;s pretty important you do this, because the subscription usage is heavily subsidized versus the API.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#e6db74>&#34;&#34;&#34;Minimal Modal setup for agents-on-modal - basic demonstration.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> json
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> os
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> fire
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> typing <span style=color:#f92672>import</span> Optional
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> modal
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> claude_agent_sdk <span style=color:#f92672>import</span> (
+</span></span><span style=display:flex><span>    AssistantMessage,
+</span></span><span style=display:flex><span>    ClaudeAgentOptions,
+</span></span><span style=display:flex><span>    ClaudeSDKClient,
+</span></span><span style=display:flex><span>    ResultMessage,
+</span></span><span style=display:flex><span>    SystemMessage,
+</span></span><span style=display:flex><span>    TextBlock,
+</span></span><span style=display:flex><span>    UserMessage,
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>app <span style=color:#f92672>=</span> modal<span style=color:#f92672>.</span>App(<span style=color:#e6db74>&#34;agents-on-modal-minimal&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>image <span style=color:#f92672>=</span> (
+</span></span><span style=display:flex><span>    modal<span style=color:#f92672>.</span>Image<span style=color:#f92672>.</span>debian_slim(python_version<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;3.12&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#f92672>.</span>uv_pip_install(<span style=color:#e6db74>&#34;claude_agent_sdk&#34;</span>, <span style=color:#e6db74>&#34;fire&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#f92672>.</span>add_local_file(
+</span></span><span style=display:flex><span>        os<span style=color:#f92672>.</span>path<span style=color:#f92672>.</span>expanduser(<span style=color:#e6db74>&#34;~/.claude/.credentials.json&#34;</span>),
+</span></span><span style=display:flex><span>        remote_path<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;/root/.claude/.credentials.json&#34;</span>,
+</span></span><span style=display:flex><span>        copy<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>,
+</span></span><span style=display:flex><span>    )
+</span></span><span style=display:flex><span>)
+</span></span></code></pre></div><p>Now, we can set up the <a href=https://platform.claude.com/docs/en/agent-sdk/python#claude-agent-options>ClaudeAgentOptions</a>.</p><p>This is where the bulk of the customization you need to do is. We&rsquo;ll get into that later.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>SYSTEM_PROMPT <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;&#34;&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>You are a helpful assistant.
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>claude_options <span style=color:#f92672>=</span> ClaudeAgentOptions(
+</span></span><span style=display:flex><span>    system_prompt<span style=color:#f92672>=</span>SYSTEM_PROMPT,
+</span></span><span style=display:flex><span>    allowed_tools<span style=color:#f92672>=</span>[],
+</span></span><span style=display:flex><span>    cwd<span style=color:#f92672>=</span>cwd,
+</span></span><span style=display:flex><span>    permission_mode<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;acceptEdits&#34;</span>,
+</span></span><span style=display:flex><span>    setting_sources<span style=color:#f92672>=</span>[<span style=color:#e6db74>&#34;project&#34;</span>],
+</span></span><span style=display:flex><span>    model<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;haiku&#34;</span>,
+</span></span><span style=display:flex><span>)
+</span></span></code></pre></div><p>Now, here&rsquo;s the actual meat of the function. In this case, we&rsquo;re only sending one prompt in.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#a6e22e>@app.function</span>(image<span style=color:#f92672>=</span>image, timeout<span style=color:#f92672>=</span><span style=color:#ae81ff>60</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>5</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>async</span> <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>run_agent</span>(prompt: str, cwd: str <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;/&#34;</span>):
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    Minimal: run one prompt and stream all messages to stdout.
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    &#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>async</span> <span style=color:#66d9ef>with</span> ClaudeSDKClient(options<span style=color:#f92672>=</span>_options(cwd<span style=color:#f92672>=</span>cwd)) <span style=color:#66d9ef>as</span> client:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>await</span> client<span style=color:#f92672>.</span>query(prompt)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>async</span> <span style=color:#66d9ef>for</span> message <span style=color:#f92672>in</span> client<span style=color:#f92672>.</span>receive_response():
+</span></span><span style=display:flex><span>            <span style=color:#75715e># SYSTEM</span>
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> isinstance(message, SystemMessage):
+</span></span><span style=display:flex><span>                print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;[system] subtype=</span><span style=color:#e6db74>{</span>message<span style=color:#f92672>.</span>subtype<span style=color:#e6db74>}</span><span style=color:#e6db74> data=</span><span style=color:#e6db74>{</span>message<span style=color:#f92672>.</span>data<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>continue</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#75715e># ASSISTANT</span>
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> isinstance(message, AssistantMessage):
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>for</span> block <span style=color:#f92672>in</span> message<span style=color:#f92672>.</span>content:
+</span></span><span style=display:flex><span>                    <span style=color:#66d9ef>if</span> isinstance(block, TextBlock):
+</span></span><span style=display:flex><span>                        print(<span style=color:#e6db74>&#34;[assistant:text]&#34;</span>)
+</span></span><span style=display:flex><span>                        print(block<span style=color:#f92672>.</span>text)
+</span></span><span style=display:flex><span>                    <span style=color:#66d9ef>elif</span> hasattr(block, <span style=color:#e6db74>&#34;name&#34;</span>):
+</span></span><span style=display:flex><span>                        print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;[assistant:tool_call] name=</span><span style=color:#e6db74>{</span>block<span style=color:#f92672>.</span>name<span style=color:#e6db74>}</span><span style=color:#e6db74> id=</span><span style=color:#e6db74>{</span>block<span style=color:#f92672>.</span>id<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>                        print(json<span style=color:#f92672>.</span>dumps(getattr(block, <span style=color:#e6db74>&#34;input&#34;</span>, {}), indent<span style=color:#f92672>=</span><span style=color:#ae81ff>2</span>))
+</span></span><span style=display:flex><span>                    <span style=color:#66d9ef>else</span>:
+</span></span><span style=display:flex><span>                        print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;[assistant:unknown_block] </span><span style=color:#e6db74>{</span>type(block)<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>continue</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#75715e># USER (tool results)</span>
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> isinstance(message, UserMessage):
+</span></span><span style=display:flex><span>                print(<span style=color:#e6db74>&#34;[user_message]&#34;</span>)
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>for</span> block <span style=color:#f92672>in</span> message<span style=color:#f92672>.</span>content:
+</span></span><span style=display:flex><span>                    <span style=color:#66d9ef>if</span> hasattr(block, <span style=color:#e6db74>&#34;tool_use_id&#34;</span>):
+</span></span><span style=display:flex><span>                        print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;  [tool_result] tool_use_id=</span><span style=color:#e6db74>{</span>block<span style=color:#f92672>.</span>tool_use_id<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>                        print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;  is_error=</span><span style=color:#e6db74>{</span>getattr(block, <span style=color:#e6db74>&#39;is_error&#39;</span>, <span style=color:#66d9ef>False</span>)<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>                        print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;  content=</span><span style=color:#e6db74>{</span>str(block<span style=color:#f92672>.</span>content)[:<span style=color:#ae81ff>1000</span>]<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>                    <span style=color:#66d9ef>else</span>:
+</span></span><span style=display:flex><span>                        print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;  [unknown_block] </span><span style=color:#e6db74>{</span>type(block)<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>continue</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#75715e># FINAL / RESULT</span>
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> isinstance(message, ResultMessage):
+</span></span><span style=display:flex><span>                print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;[result] subtype=</span><span style=color:#e6db74>{</span>message<span style=color:#f92672>.</span>subtype<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>continue</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;[unknown_message] </span><span style=color:#e6db74>{</span>type(message)<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#75715e># some versions include `.result`</span>
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> hasattr(message, <span style=color:#e6db74>&#34;result&#34;</span>):
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>return</span> message<span style=color:#f92672>.</span>result
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>None</span>
+</span></span></code></pre></div><p>And, some code that enables you to run this locally.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#a6e22e>@app.local_entrypoint</span>()
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>main</span>(prompt: str <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;Hello! What is 2+2?&#34;</span>, cwd: Optional[str] <span style=color:#f92672>=</span> <span style=color:#66d9ef>None</span>):
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    Run from your repo root:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      modal run example_minimal.py
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      modal run example_minimal.py --prompt &#34;Tell me a joke&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    &#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> cwd <span style=color:#f92672>is</span> <span style=color:#66d9ef>None</span>:
+</span></span><span style=display:flex><span>        cwd <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;/&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    print(<span style=color:#e6db74>&#34;Running minimal Modal agent&#34;</span>)
+</span></span><span style=display:flex><span>    print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Prompt: </span><span style=color:#e6db74>{</span>prompt<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    out <span style=color:#f92672>=</span> run_agent<span style=color:#f92672>.</span>remote(prompt, cwd<span style=color:#f92672>=</span>cwd)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    print(<span style=color:#e6db74>&#34;=== Remote agent execution complete ===&#34;</span>)
+</span></span><span style=display:flex><span>    print(out)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> __name__ <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;__main__&#34;</span>:
+</span></span><span style=display:flex><span>    fire<span style=color:#f92672>.</span>Fire(main)
+</span></span></code></pre></div><p>You should get something like</p><pre tabindex=0><code>└── 🔨 Created function run_agent.
+============================================================
+Running minimal Modal agent
+Prompt: Tell me a joke
+============================================================
+[system] subtype=init data={&#39;type&#39;: &#39;system&#39;, &#39;subtype&#39;: &#39;init&#39;, &#39;cwd&#39;: &#39;/&#39;, &#39;session_id&#39;: &#39;5f5e9a28-92d8-486b-a5ba-d36817abc876&#39;, &#39;tools&#39;: [&#39;Task&#39;, &#39;TaskOutput&#39;, &#39;Bash&#39;, &#39;Glob&#39;, &#39;Grep&#39;, &#39;ExitPlanMode&#39;, &#39;Read&#39;, &#39;Edit&#39;, &#39;Write&#39;, &#39;NotebookEdit&#39;, &#39;WebFetch&#39;, &#39;TodoWrite&#39;, &#39;WebSearch&#39;, &#39;KillShell&#39;, &#39;AskUserQuestion&#39;, &#39;Skill&#39;, &#39;SlashCommand&#39;, &#39;EnterPlanMode&#39;], &#39;mcp_servers&#39;: [], &#39;model&#39;: &#39;claude-haiku-4-5-20251001&#39;, &#39;permissionMode&#39;: &#39;acceptEdits&#39;, &#39;slash_commands&#39;: [&#39;compact&#39;, &#39;context&#39;, &#39;cost&#39;, &#39;init&#39;, &#39;pr-comments&#39;, &#39;release-notes&#39;, &#39;review&#39;, &#39;security-review&#39;], &#39;apiKeySource&#39;: &#39;none&#39;, &#39;claude_code_version&#39;: &#39;2.0.72&#39;, &#39;output_style&#39;: &#39;default&#39;, &#39;agents&#39;: [&#39;general-purpose&#39;, &#39;statusline-setup&#39;, &#39;Explore&#39;, &#39;Plan&#39;], &#39;skills&#39;: [], &#39;plugins&#39;: [], &#39;uuid&#39;: &#39;9de35164-74b9-467f-9f34-54a0ab84ec0e&#39;}
+[assistant:text]
+Why don&#39;t scientists trust atoms?
+
+Because they make up everything! 😄
+
+============================================================
+=== Remote agent execution complete ===
+============================================================
+None
+Stopping app - local entrypoint completed.
+[result] subtype=success
+</code></pre><p>Gotta love that joke, every LLM since GPT-3.5 has&mldr;</p><p>The full snippet in <a href=https://gist.github.com/stillmatic/46d55bb81739479bbe74f14b6aa1198a>a gist</a>.</p><h2 id=making-it-useful>Making it useful</h2><p>Cool, so we can run some code in a container online. Yay! But this a useful project does not make. It&rsquo;s Claude <em>CODE</em> after all. So how can we modify it to be useful?</p><p>We want this experience to:</p><ol><li>Be visible/observable to us</li><li>Actually load our Github repos and do stuff</li><li>Swap in different models for Claude (sorry Claude)</li><li>Kick off runs from a UI not tied to my computer / CLI</li></ol><p>With a bit of prompting we can get there too. No full code release yet, I&rsquo;m building something internal but I&rsquo;ll show roughly how to do this.</p><h3 id=persisting-logs>Persisting logs</h3><p>Claude Code stores its conversations in jsonl files locally. If you&rsquo;re running Claude locally, cool, but if you&rsquo;re not, then we need to persist them somewhere. We&rsquo;re in the cloud now so let&rsquo;s persist to cloud native storage - dump them to S3!</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>sync_to_s3</span>():
+</span></span><span style=display:flex><span>    <span style=color:#f92672>import</span> os
+</span></span><span style=display:flex><span>    <span style=color:#f92672>import</span> boto3
+</span></span><span style=display:flex><span>    <span style=color:#f92672>from</span> botocore.exceptions <span style=color:#f92672>import</span> ClientError
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    s3 <span style=color:#f92672>=</span> boto3<span style=color:#f92672>.</span>client(
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;s3&#34;</span>,
+</span></span><span style=display:flex><span>        endpoint_url<span style=color:#f92672>=</span>os<span style=color:#f92672>.</span>environ[<span style=color:#e6db74>&#34;S3_ENDPOINT_URL&#34;</span>],
+</span></span><span style=display:flex><span>        aws_access_key_id<span style=color:#f92672>=</span>os<span style=color:#f92672>.</span>environ[<span style=color:#e6db74>&#34;AWS_ACCESS_KEY_ID&#34;</span>],
+</span></span><span style=display:flex><span>        aws_secret_access_key<span style=color:#f92672>=</span>os<span style=color:#f92672>.</span>environ[<span style=color:#e6db74>&#34;AWS_SECRET_ACCESS_KEY&#34;</span>],
+</span></span><span style=display:flex><span>        region_name<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;auto&#34;</span>,
+</span></span><span style=display:flex><span>    )
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    LOCAL_FOLDER <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;/root/.claude/projects&#34;</span>
+</span></span><span style=display:flex><span>    BUCKET_NAME <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;my-bucket&#34;</span>
+</span></span><span style=display:flex><span>    PREFIX <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;logs/claude&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    uploaded <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> root, _, files <span style=color:#f92672>in</span> os<span style=color:#f92672>.</span>walk(LOCAL_FOLDER):
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> filename <span style=color:#f92672>in</span> files:
+</span></span><span style=display:flex><span>            local_path <span style=color:#f92672>=</span> os<span style=color:#f92672>.</span>path<span style=color:#f92672>.</span>join(root, filename)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#75715e># Build S3 key with forward slashes</span>
+</span></span><span style=display:flex><span>            relative_path <span style=color:#f92672>=</span> os<span style=color:#f92672>.</span>path<span style=color:#f92672>.</span>relpath(local_path, LOCAL_FOLDER)<span style=color:#f92672>.</span>replace(
+</span></span><span style=display:flex><span>                os<span style=color:#f92672>.</span>sep, <span style=color:#e6db74>&#34;/&#34;</span>
+</span></span><span style=display:flex><span>            )
+</span></span><span style=display:flex><span>            s3_key <span style=color:#f92672>=</span> <span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{</span>PREFIX<span style=color:#e6db74>}</span><span style=color:#e6db74>/</span><span style=color:#e6db74>{</span>relative_path<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#75715e># Try to upload file, overwrite any existing version</span>
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>try</span>:
+</span></span><span style=display:flex><span>                s3<span style=color:#f92672>.</span>upload_file(
+</span></span><span style=display:flex><span>                    Filename<span style=color:#f92672>=</span>local_path,
+</span></span><span style=display:flex><span>                    Bucket<span style=color:#f92672>=</span>BUCKET_NAME,
+</span></span><span style=display:flex><span>                    Key<span style=color:#f92672>=</span>s3_key,
+</span></span><span style=display:flex><span>                )
+</span></span><span style=display:flex><span>                uploaded <span style=color:#f92672>+=</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>except</span> ClientError <span style=color:#66d9ef>as</span> e:
+</span></span><span style=display:flex><span>                print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Failed to upload </span><span style=color:#e6db74>{</span>local_path<span style=color:#e6db74>}</span><span style=color:#e6db74>: </span><span style=color:#e6db74>{</span>e<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Uploaded </span><span style=color:#e6db74>{</span>uploaded<span style=color:#e6db74>}</span><span style=color:#e6db74> files&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>async</span> <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>sync_to_s3_hook</span>(
+</span></span><span style=display:flex><span>    input_data: dict[str, Any], tool_use_id: str <span style=color:#f92672>|</span> <span style=color:#66d9ef>None</span>, context: HookContext
+</span></span><span style=display:flex><span>) <span style=color:#f92672>-&gt;</span> dict[str, Any]:
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;Sync to S3 after tool use.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    sync_to_s3()
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> {}
+</span></span></code></pre></div><p>Another option would be to <a href=https://modal.com/docs/guide/cloud-bucket-mounts>mount an S3 bucket as a filesystem</a>, point the logs via an env var (<code>CLAUDE_PROJECT_DIR</code>) to there, and keep it always in sync. This might also make resumption easier, versus downloading on the fly when resuming.</p><h4 id=persisting-code>Persisting code</h4><p>Now, we mostly write code. So, we probably want to sync the state to github too. But, we also don&rsquo;t want to waste tokens on 1) telling agents to commit and push, and 2) running the risk that they don&rsquo;t actually commit and push.</p><p>So, let&rsquo;s do that in the background so they always push. To make this safe, I initialize the container with a new branch name for every run, so it is always cloning main (or the current branch I&rsquo;m on), and stacking commits on top of that. This assures that the bot is not messing with other branches. In my experience, if the bot doesn&rsquo;t have ANY reference to git anywhere, it won&rsquo;t go digging around for potentially destructive behavior. To be extra safe you could block the agent from running any git operations as well, and just systematically run those instead.</p><p>This is a basic setup &ndash; you&rsquo;ll need to auth with Github somehow. The easiest approach is to add a Personal Access Token or a Deploy Key into the repo, and you&rsquo;d then either copy the key from local into your Modal container or add it as a Github secret. I started with that and now use a GH App token for auth. That code is more complicated to setup but Codex wrote it just fine, so I think you can also figure it out.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>_run</span>(cmd: list[str], cwd: str <span style=color:#f92672>|</span> <span style=color:#66d9ef>None</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>None</span>) <span style=color:#f92672>-&gt;</span> subprocess<span style=color:#f92672>.</span>CompletedProcess:
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;Run a command with proper error handling.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;$ </span><span style=color:#e6db74>{</span><span style=color:#e6db74>&#39; &#39;</span><span style=color:#f92672>.</span>join(cmd)<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> subprocess<span style=color:#f92672>.</span>run(cmd, check<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>, text<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>, capture_output<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>, cwd<span style=color:#f92672>=</span>cwd)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>git_commit_and_push</span>(
+</span></span><span style=display:flex><span>    commit_title: str,
+</span></span><span style=display:flex><span>    commit_body: str <span style=color:#f92672>|</span> <span style=color:#66d9ef>None</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>None</span>,
+</span></span><span style=display:flex><span>    repo_path: str <span style=color:#f92672>=</span> REPO_PATH,
+</span></span><span style=display:flex><span>) <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>None</span>:
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;Commit and push changes to the repository.
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    Args:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        commit_title: The commit message title
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        commit_body: Optional commit message body
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        repo_path: Path to the git repository (defaults to REPO_PATH)
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    &#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 1) stage all changes</span>
+</span></span><span style=display:flex><span>    _run([<span style=color:#e6db74>&#34;git&#34;</span>, <span style=color:#e6db74>&#34;add&#34;</span>, <span style=color:#e6db74>&#34;-A&#34;</span>], cwd<span style=color:#f92672>=</span>repo_path)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 2) commit (skip if nothing to commit)</span>
+</span></span><span style=display:flex><span>    st <span style=color:#f92672>=</span> _run([<span style=color:#e6db74>&#34;git&#34;</span>, <span style=color:#e6db74>&#34;status&#34;</span>, <span style=color:#e6db74>&#34;--porcelain&#34;</span>], cwd<span style=color:#f92672>=</span>repo_path)<span style=color:#f92672>.</span>stdout<span style=color:#f92672>.</span>strip()
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> st:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> commit_body:
+</span></span><span style=display:flex><span>            <span style=color:#75715e># clean multi-line message</span>
+</span></span><span style=display:flex><span>            _run(
+</span></span><span style=display:flex><span>                [<span style=color:#e6db74>&#34;git&#34;</span>, <span style=color:#e6db74>&#34;commit&#34;</span>, <span style=color:#e6db74>&#34;-m&#34;</span>, commit_title, <span style=color:#e6db74>&#34;-m&#34;</span>, commit_body],
+</span></span><span style=display:flex><span>                cwd<span style=color:#f92672>=</span>repo_path,
+</span></span><span style=display:flex><span>            )
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>else</span>:
+</span></span><span style=display:flex><span>            _run([<span style=color:#e6db74>&#34;git&#34;</span>, <span style=color:#e6db74>&#34;commit&#34;</span>, <span style=color:#e6db74>&#34;-m&#34;</span>, commit_title], cwd<span style=color:#f92672>=</span>repo_path)
+</span></span><span style=display:flex><span>        <span style=color:#75715e># Push current HEAD to origin, setting upstream if needed</span>
+</span></span><span style=display:flex><span>        _run([<span style=color:#e6db74>&#34;git&#34;</span>, <span style=color:#e6db74>&#34;push&#34;</span>, <span style=color:#e6db74>&#34;-u&#34;</span>, <span style=color:#e6db74>&#34;origin&#34;</span>, <span style=color:#e6db74>&#34;HEAD&#34;</span>], cwd<span style=color:#f92672>=</span>repo_path)
+</span></span></code></pre></div><p>Now, these just run as post tool use hooks.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>claude_agent_options <span style=color:#f92672>=</span> ClaudeAgentOptions(
+</span></span><span style=display:flex><span>    <span style=color:#75715e># ...</span>
+</span></span><span style=display:flex><span>    hooks<span style=color:#f92672>=</span>{
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;PostToolUse&#34;</span>: [
+</span></span><span style=display:flex><span>            HookMatcher(
+</span></span><span style=display:flex><span>                matcher<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Write|Edit|Bash&#34;</span>,
+</span></span><span style=display:flex><span>                hooks<span style=color:#f92672>=</span>[git_commit_and_push_hook],
+</span></span><span style=display:flex><span>            ),
+</span></span><span style=display:flex><span>            HookMatcher(hooks<span style=color:#f92672>=</span>[log_tool_use, sync_to_s3_hook]),
+</span></span><span style=display:flex><span>        ]
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    <span style=color:#75715e># ...</span>
+</span></span><span style=display:flex><span>)
+</span></span></code></pre></div><p>This means that when the agent runs, everything is flowing back to S3 and Github as your sources of truth.</p><h3 id=building-a-ui>Building a UI</h3><p>So we want to visualize these logs in S3. The basic flow of prompting Codex looked like:</p><ol><li>Initialize a NextJS app w/tailwind.</li><li>Logs are in this bucket, S3 creds are set up in <code>.env</code>, read the logs.</li><li>Create a super basic UI that shows logs, grouped by their session ID on the left sidebar, and main view on the right.</li><li>Create a local sqlite index of the logs and their session ID, model usage statistics, timestamps, number of messages, etc.</li><li>Ok, lets render the logs in a more pretty way than just json lines. Create a &lsquo;rendered&rsquo; and a &lsquo;raw&rsquo; tab (because we don&rsquo;t fully know the schema and want to look at the raw to understand). Here&rsquo;s a few examples, render them in a better way.</li><li>Oh, we also know the git branch that this was operating on. Link to it on Github too.</li><li>Let&rsquo;s add some pricing data. Here&rsquo;s model names and their price per operation, sum them up and show it on the page.</li><li>Tell Gemini to make it prettier and add a darkmode</li></ol><p>(as an aside: isn&rsquo;t this an interesting way to distribute code? instead of looking at my github, you have a prompt trajectory that should recreate you something pretty similar, and it&rsquo;s more understandable! compression!)</p><p>The app looks a bit like this now (with some redactions):</p><p><img src=ui.png alt="Basic vibe coded UI for viewing Claude Code logs"></p><p>Pretty easy to read, you&rsquo;ll just have to trust me.</p><p>To make this safe to deal with on the open internet - as there&rsquo;s quite a bit of code, data, etc in here - I put it behind Cloudflare Zero Trust.</p><h3 id=swapping-models>Swapping models</h3><p>I love Claude but I want to try other models too. There&rsquo;s a researcher/poly joke in there, that is left to the reader.</p><p>Lots of other models target the Claude Code harness too. I would subscribe directly if any of them are good, but in the meantime, we can swap them in by using OpenRouter. This is definitely suboptimal because I think most of the hosted open model API providers are <a href=https://x.com/OpenRouterAI/status/1981050599367201105>borderline</a> <a href=https://x.com/crystalsssup/status/1971158566343184511>fraudulent</a> but what can you do.</p><p>Let&rsquo;s define a few that we want to try</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#a6e22e>@dataclass</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>InferenceConfig</span>:
+</span></span><span style=display:flex><span>    base_url: str
+</span></span><span style=display:flex><span>    auth_token_env_var: str
+</span></span><span style=display:flex><span>    api_key_env_var: str <span style=color:#f92672>|</span> <span style=color:#66d9ef>None</span>
+</span></span><span style=display:flex><span>    default_opus_model: str
+</span></span><span style=display:flex><span>    default_sonnet_model: str
+</span></span><span style=display:flex><span>    default_haiku_model: str
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>_get_openrouter_config</span>(model: str) <span style=color:#f92672>-&gt;</span> InferenceConfig:
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> InferenceConfig(
+</span></span><span style=display:flex><span>        base_url<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;https://openrouter.ai/api&#34;</span>,
+</span></span><span style=display:flex><span>        auth_token_env_var<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;OPENROUTER_API_KEY&#34;</span>,
+</span></span><span style=display:flex><span>        api_key_env_var<span style=color:#f92672>=</span><span style=color:#66d9ef>None</span>,
+</span></span><span style=display:flex><span>        default_opus_model<span style=color:#f92672>=</span>model,
+</span></span><span style=display:flex><span>        default_sonnet_model<span style=color:#f92672>=</span>model,
+</span></span><span style=display:flex><span>        default_haiku_model<span style=color:#f92672>=</span>model,
+</span></span><span style=display:flex><span>    )
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>default_model_configs <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;kimi&#34;</span>: _get_openrouter_config(<span style=color:#e6db74>&#34;moonshotai/kimi-k2-0905:exacto&#34;</span>),
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;deepseek&#34;</span>: _get_openrouter_config(<span style=color:#e6db74>&#34;deepseek/deepseek-v3.1-terminus:exacto&#34;</span>),
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;glm-4.6&#34;</span>: _get_openrouter_config(<span style=color:#e6db74>&#34;z-ai/glm-4.6:exacto&#34;</span>),
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;glm-4.7&#34;</span>: _get_openrouter_config(<span style=color:#e6db74>&#34;z-ai/glm-4.7&#34;</span>),
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;minimax-m2.1&#34;</span>: _get_openrouter_config(<span style=color:#e6db74>&#34;minimax/minimax-m2.1&#34;</span>),
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>Then, in the Modal agent initialization, we can configure these. If the chosen config name is blank, use Claude&rsquo;s auth. Otherwise, set the env vars to use the API key (which takes precedence over the Claude auth).</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>_configure_model</span>(self, model_config: str):
+</span></span><span style=display:flex><span>    self<span style=color:#f92672>.</span>model_config <span style=color:#f92672>=</span> model_config
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> model_config <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;&#34;</span>:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span>
+</span></span><span style=display:flex><span>    inf_cfg <span style=color:#f92672>=</span> default_model_configs[model_config]
+</span></span><span style=display:flex><span>    os<span style=color:#f92672>.</span>environ[<span style=color:#e6db74>&#34;ANTHROPIC_BASE_URL&#34;</span>] <span style=color:#f92672>=</span> inf_cfg<span style=color:#f92672>.</span>base_url
+</span></span><span style=display:flex><span>    os<span style=color:#f92672>.</span>environ[<span style=color:#e6db74>&#34;ANTHROPIC_AUTH_TOKEN&#34;</span>] <span style=color:#f92672>=</span> os<span style=color:#f92672>.</span>getenv(inf_cfg<span style=color:#f92672>.</span>auth_token_env_var)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> inf_cfg<span style=color:#f92672>.</span>api_key_env_var <span style=color:#f92672>is</span> <span style=color:#f92672>not</span> <span style=color:#66d9ef>None</span>:
+</span></span><span style=display:flex><span>        os<span style=color:#f92672>.</span>environ[<span style=color:#e6db74>&#34;ANTHROPIC_API_KEY&#34;</span>] <span style=color:#f92672>=</span> os<span style=color:#f92672>.</span>getenv(inf_cfg<span style=color:#f92672>.</span>api_key_env_var)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>else</span>:
+</span></span><span style=display:flex><span>        os<span style=color:#f92672>.</span>environ[<span style=color:#e6db74>&#34;ANTHROPIC_API_KEY&#34;</span>] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;&#34;</span>
+</span></span><span style=display:flex><span>    os<span style=color:#f92672>.</span>environ[<span style=color:#e6db74>&#34;ANTHROPIC_DEFAULT_OPUS_MODEL&#34;</span>] <span style=color:#f92672>=</span> inf_cfg<span style=color:#f92672>.</span>default_opus_model
+</span></span><span style=display:flex><span>    os<span style=color:#f92672>.</span>environ[<span style=color:#e6db74>&#34;ANTHROPIC_DEFAULT_SONNET_MODEL&#34;</span>] <span style=color:#f92672>=</span> inf_cfg<span style=color:#f92672>.</span>default_sonnet_model
+</span></span><span style=display:flex><span>    os<span style=color:#f92672>.</span>environ[<span style=color:#e6db74>&#34;ANTHROPIC_DEFAULT_HAIKU_MODEL&#34;</span>] <span style=color:#f92672>=</span> inf_cfg<span style=color:#f92672>.</span>default_haiku_model
+</span></span><span style=display:flex><span>    print(<span style=color:#e6db74>&#34;Set up env vars&#34;</span>, inf_cfg)
+</span></span></code></pre></div><p>Then, we just wire the frontend to take a Modal API key and &mldr;</p><p><img src=run.png alt="UI to run a new task via the modal interface"></p><p>Boom, Claude Code on Web at home, almost. I haven&rsquo;t written out resumptions or followups or anything super well, but clearly it should be doable, we have completely cloned the state, we can load that back into a new Modal instance and resume. The bots have mostly been pretty bad at this task I&rsquo;m trying, so nothing has felt followup worthy, but hey.</p><h2 id=now-what>Now what?</h2><p>One big theme I feel is that code is becoming basically free. $200/mo buys you agents churning through code like this (heck, this is well within the $20 limits). I engineered up a bunch of subagents and MCP servers with this, and it&rsquo;s pretty fun/interesting, but definitely software will change. I don&rsquo;t think engineering is going away though; there is infinite demand for customization.</p><p>This little project is a good microcosm of all of these trends:</p><ol><li>I&rsquo;m not the first person think of this. There are companies building some version of this already, eg <a href=https://www.terragonlabs.com/>Terragon</a>, as well as OpenAI/Anthropic. <a href=https://benanderson.work/blog/async-coding-agents/>Ben Anderson</a> posted a very similar approach last week and made a <a href=https://ccviewer.com/>public log viewer</a>. But code is cheap, and I&rsquo;m good at this, so why not try?</li><li>For my specific agent task, I need (or at least want) a custom agentic loop, and to be able to visualize that as a human. So lots of customization that just isn&rsquo;t easily available in a hosted tool.</li><li>These models are getting RLHFed off of bash (esp Codex) heavily, and while I think that&rsquo;s cool, I kinda want a model that is getting RLHFed off of Jupyter notebooks. Faster feedback and iteration. I tried to do that maybe a month ago, with Modal sandboxes maintaining memory state, but the harnesses refused to do that and instead only wrote code files. Which I think means that we still haven&rsquo;t figured out the right way to teach these models.</li><li>While I&rsquo;m not ready to talk about that specific task either yet, and so won&rsquo;t share the code for this setup yet, I <em>can</em> share the overall prompt for how to do it, and you can &lsquo;uncompress&rsquo; that description into code with any of the frontier agents now, and customize it to your liking. Which is honestly pretty cool.</li></ol><p>Ultimately, even if code is free, you still need humans to <em>care</em> and drive things forward.</p><footer><nav class=post-nav><span class=nav-prev>&larr; <a href=/post/2025/12/03/kintsugi/>Kintsugi - AI mediation</a></span>
+<span class=nav-next></span></nav><script src=//yihui.name/js/math-code.js></script><script async src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script async src=//yihui.name/js/center-img.js></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/r.min.js></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/yaml.min.js></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/tex.min.js></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/python.min.js></script><script>hljs.configure({languages:[]}),hljs.initHighlightingOnLoad()</script><hr><div class=copyright><a href=https://github.com/stillmatic>Github</a> | <a href=https://twitter.com/hingeloss>Twitter</a> | <a href=https://hua.substack.com>Substack</a></div></footer></article><script async src="https://www.googletagmanager.com/gtag/js?id=G-J2HDEPZHG9"></script><script>var doNotTrack=!1,dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes";if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-J2HDEPZHG9")}</script></body></html>
