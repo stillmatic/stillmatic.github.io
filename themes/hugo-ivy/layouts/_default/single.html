@@ -1,6 +1,19 @@
 {{ partial "header.html" . }}
 
-{{ if .Params.show_toc }} {{ .TableOfContents }} {{ end }}
+{{ $showToc := or (not (isset .Params "show_toc")) .Params.show_toc }}
+{{ if and $showToc .TableOfContents }}
+<aside class="toc-panel">
+  <input type="checkbox" id="toc-toggle" class="toc-toggle" />
+  <label for="toc-toggle" class="toc-button">
+    <span class="toc-open">Show TOC</span>
+    <span class="toc-close">Hide TOC</span>
+  </label>
+  <div class="toc-box">
+    <div class="toc-title">On this page</div>
+    {{ .TableOfContents }}
+  </div>
+</aside>
+{{ end }}
 
 {{ if (and (eq (getenv "HUGO_BLOGDOWN_POST_RELREF") "") (and (and .Params.date (lt (now.AddDate 0 0 ($.Site.Params.holdDays | default -90)) .Date)) (in (string .Content) "<!--# ON_HOLD -->"))) }}
 {{ (index (split .Content "<!--# ON_HOLD -->") 0) | safeHTML }}
