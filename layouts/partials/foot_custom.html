@@ -7,67 +7,7 @@
 
 {{ partial "disqus.html" . }}
 
-<script>
-// <code>$math$</code> to \(math\), and <code>$$math$$</code> to $$math$$:
-// https://yihui.org/en/2018/07/latex-math-markdown/
-document.querySelectorAll(':not(pre) > code:not(.nolatex)').forEach(code => {
-  // skip <pre> tags and <code> that has children or the nolatex class
-  if (code.childElementCount > 0) return;
-  let text = code.textContent;
-  if (/^\$[^$]/.test(text) && /[^$]\$$/.test(text)) {
-    text = text.replace(/^\$/, '\\(').replace(/\$$/, '\\)');
-    code.textContent = text;
-  }
-  if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
-      /^\$(.|\s)+\$$/.test(text) ||
-      /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
-    code.outerHTML = code.innerHTML;  // remove <code></code>
-  }
-});
-</script>
-<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script src="//cdn.jsdelivr.net/npm/@xiee/utils/js/math-code.js" defer></script>
+<script src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
 
-<script>
-(function(d) {
-
-  function one_child(el) {
-    if (!el || el.childElementCount !== 1) return false;
-    const nodes = el.childNodes;
-    if (nodes.length === 1) return true;
-    for (let i = 0; i < nodes.length; i++) {
-      let node = nodes[i];
-      if (node.nodeName === '#text' && !/^\s*$/.test(node.textContent)) return false;
-    }
-    return true;
-  }
-
-  function center_el(tagName) {
-    d.querySelectorAll(tagName).forEach(tag => {
-      let parent = tag.parentElement;
-      // center an image if it is the only element of its parent
-      if (parent && one_child(parent)) {
-        const parentA = parent.nodeName === 'A';
-        if (parentA) {
-          parent = parent.parentElement;
-          if (!parent || !one_child(parent)) return;
-          parent.firstElementChild.style.border = 'none';
-        }
-        if (parent && parent.nodeName === 'P') {
-          parent.style.textAlign = 'center';
-          if (!parentA && tagName === 'img' && !/^data:/.test(tag.src)) {
-            parent.innerHTML = `<a href="${tag.src}" style="border: none;">${tag.outerHTML}</a>`;
-          }
-        }
-      }
-    });
-  }
-
-  ['img', 'embed', 'object'].forEach(center_el);
-
-  // also center paragraphs that contain `* * *`
-  d.querySelectorAll('p').forEach(p => {
-    if (p.innerText === '* * *') p.style.textAlign = 'center';
-  });
-
-})(document);
-</script>
+<script src="//cdn.jsdelivr.net/npm/@xiee/utils/js/center-img.js" defer></script>

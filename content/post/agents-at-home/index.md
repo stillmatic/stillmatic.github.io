@@ -10,7 +10,7 @@ tags: [agents, product]
 
 Since the first time anyone said "coding agents," I've basically only wanted one thing: an intern I can assign tasks to, whenever they pop into my mind, and expect results eventually. Claude Code and OpenAI Codex are getting there, in terms of the pure capability. But they're also chew through tokens quickly, add huge markups (4-5x) on sandbox usage, and are not that easily customizable. For example, I've been working on a bit of a software benchmark, and I want to test different models on it, which requires a custom setup. I thought software engineering was solved, so can we do something here?
 
-So, I set up Claude's Agents SDK (basically headless Claude Code) to run on Modal. Modal is easy to work with, has very cheap compute/generous free tier, and good vibes.
+So, I set up Claude's Agents SDK (basically headless Claude Code) to run on Modal. Modal is easy to work with, has very cheap compute/generous free tier, and good vibes. And you can too!
 
 ## A basic implementation
 

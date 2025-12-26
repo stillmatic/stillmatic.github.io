@@ -12,10 +12,6 @@ footnotereturnlinkcontents = "↩"
     note = "/note/:year/:month/:day/:slug/"
 
 [[menu.main]]
-    name = "Home"
-    permalink = "/"
-    weight = 1
-[[menu.main]]
     name = "Categories"
     permalink = "/categories/"
     weight = 2
@@ -34,17 +30,10 @@ footnotereturnlinkcontents = "↩"
     disqusShortname = ""
 
 [markup]
+  defaultMarkdownHandler = 'goldmark'
+
   [markup.highlight]
-    anchorLineNos = false
     codeFences = true
-    guessSyntax = false
-    hl_Lines = ''
-    hl_inline = false
-    lineAnchors = ''
-    lineNoStart = 1
-    lineNos = false
-    lineNumbersInTable = true
-    noClasses = true
-    style = 'monokai'
-    tabWidth = 4
-    wrapperClass = 'highlight'
+    style = 'github-dark'
+  [markup.goldmark.renderer]
+    unsafe=true
