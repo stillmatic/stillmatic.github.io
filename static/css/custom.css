@@ -71,9 +71,14 @@ article .main {
 } */
 
 /* Prevent Firefox from stripping syntax highlighting colors in dark mode */
-.highlight {
+.highlight,
+.highlight *,
+pre,
+pre code,
+pre code * {
   forced-color-adjust: none;
   -webkit-forced-color-adjust: none;
+  color-scheme: light !important;
 }
 
 blockquote {
