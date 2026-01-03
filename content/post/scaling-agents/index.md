@@ -8,7 +8,7 @@ categories: [articles]
 tags: [agents, product]
 ---
 
-(This is a companion piece to [link])
+(This is a companion piece to [my substack post](https://substack.com/home/post/p-183303545))
 
 A good chunk of my professional career has been spent trying to _spend more money_. Pre-LLMs, this was trying to scale fraud pipelines at close to Google search scale. With LLMs, I've spent probably O($1M) to programatically label and distill data. Being able to spend that money somewhat intelligently requires real infrastructure and planning to set up.
 
